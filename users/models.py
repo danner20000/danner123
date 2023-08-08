@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, default="John")
+    last_name = models.CharField(max_length=255, default="Doe")
     email = models.EmailField(unique=True)
     is_staff = models.BooleanField(default=False)
 
@@ -14,7 +16,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         def create_user(self, username, email, password=None):
 
             user = self.model(
-                username=username, 
+                username=username,
                 email=self.normalize_email(email)
                 )
             user.set_password(password)
