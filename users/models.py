@@ -1,39 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from .managers import UserManager
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=255)
-    first_name = models.CharField(max_length=255, default="John")
-    last_name = models.CharField(max_length=255, default="Doe")
-    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=255, null=True)
+    last_name = models.CharField(max_length=255, null=True)
+    email = models.EmailField(unique=True,null=True)
     is_staff = models.BooleanField(default=False)
-
+    
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
-
-    class UserManager(BaseUserManager):
-
-        def create_user(self, username, email, password=None):
-
-            user = self.model(
-                username=username,
-                email=self.normalize_email(email)
-                )
-            user.set_password(password)
-            user.save(using=self._db)
-
-            return user
-
-        def create_superuser(self, username, email, password):
-            user = self.create_user(
-                username=username,
-                email=self.normalize_email(email),
-                password=password
-                )
-            user.is_staff = True
-            user.is_superuser = True
-            user.save(using=self._db)
-            return user
+    REQUIRED_FIELDS = ['first_name', 'last_name']
 
     objects = UserManager()
 
