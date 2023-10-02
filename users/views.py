@@ -1,11 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .serializers import UserSerializer
-from .forms import create_user_form
 from django.contrib import messages
 import requests
+from django.contrib.auth import authenticate, login, logout
+
+#import from form
+from .forms import create_user_form
+from .forms import login
+
 
 # Create your views here.
 class User(ModelViewSet):
@@ -19,6 +24,7 @@ class User(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
+#all function
 
 def create_user(request):
     if request.method == 'POST':
@@ -47,3 +53,41 @@ def create_user(request):
     else:
         form = create_user_form()
     return render(request, 'add_user.html', {'form': form})
+
+#handle login form submission.
+def login_form(request):
+    if request.method == 'POST':
+        form = login(request.POST) 
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(email=email, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Login successful!')
+                return redirect('dashboard') 
+            else:
+                messages.error(request, 'Invalid credentials. Please try again.')
+    else:
+        form = login()
+    return render(request, 'login.html', {'form': form})
+
+#all pages
+
+#redirect to login
+def redirect_to_login(request):
+    return redirect('login_form')
+
+#logout user
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
+#login page
+def home(request):
+    form = login() 
+    return render(request, 'login.html', {'form': form})
+
+#dashboard page
+def dashboard(request):
+    return render(request, 'dashboard.html')

@@ -1,5 +1,11 @@
 from django import forms
 
+#login form
+class login(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+#create user form
 class create_user_form(forms.Form):
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)

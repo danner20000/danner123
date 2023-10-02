@@ -113,6 +113,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = 'login_form'
+LOGIN_REDIRECT_URL = 'dashboard_form'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

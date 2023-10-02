@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <h2>Welcome</h2>
+    <form method="post" action="{% url 'login_view' %}">
+      {% csrf_token %}
+      <div class="input-group">
+        <label for="email" class="label">Email:</label>
+        {{ form.email }}
+      </div>
+      <div class="input-group">
+        <label for="password" class="label">Password:</label>
+        {{ form.password }}
+      </div>
+      <button type="submit" class="submit-btn">Login</button>
+    </form>
+  </body>
+</html>
