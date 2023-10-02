@@ -26,6 +26,7 @@ class User(ModelViewSet):
     
 #all function
 
+#create user function
 def create_user(request):
     if request.method == 'POST':
         form = create_user_form(request.POST) 
@@ -34,6 +35,11 @@ def create_user(request):
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
+            confirm_password = form.cleaned_data['confirm_password']
+
+            if password != confirm_password:
+                messages.error(request, 'Passwords do not match. Please try again.')
+                return render(request, 'create_user_form.html', {'form': form})
 
             user_data = {
                 'first_name': first_name,
@@ -52,7 +58,8 @@ def create_user(request):
             messages.error(request, 'Invalid forms. Please check your inputs.')
     else:
         form = create_user_form()
-    return render(request, 'add_user.html', {'form': form})
+    return render(request, 'create_user_form.html', {'form': form})
+
 
 #handle login form submission.
 def login_form(request):
@@ -91,3 +98,7 @@ def dashboard(request):
 def create_user_page(request):
     form = create_user_form() 
     return render(request, 'create_user_form.html' , {'form': form})
+
+#display user list page
+def user_list(request):
+    return render(request, 'user_list.html')

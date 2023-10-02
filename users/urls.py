@@ -25,4 +25,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     #create user page
     path('create_user_page/', views.create_user_page, name='create_user_page'),
+    #create user list page
+    path('user_list/', views.user_list, name='user_list'),
 ]
