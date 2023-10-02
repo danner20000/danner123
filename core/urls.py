@@ -15,10 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from users.views import redirect_to_login, login_form,dashboard
 
 urlpatterns = [
     path('admin/', admin.site.urls),
      path('api/', include([
         path('users/', include('users.urls')),
     ])),
+    #Redirect Login
+    path('', redirect_to_login),
+    #login Ui
+    path('login/', login_form, name='login_form'),
+    #Display dashboard
+    path('dashboard/', dashboard, name='dashboard'),
 ]
