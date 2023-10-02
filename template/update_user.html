@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update User</title>
+  </head>
+  <body>
+    <h1>Update User</h1>
+    <form id="updateUserForm" method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Update</button>
+    </form>
+    <a href="{% url 'user_list' %}">Back</a>
+    <script src="{% static 'js/admin_update_user.js' %}"></script>
+  </body>
+</html>

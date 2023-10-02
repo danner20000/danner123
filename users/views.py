@@ -9,7 +9,8 @@ from django.contrib.auth import authenticate, login, logout
 
 #import from form
 from .forms import create_user_form
-from .forms import login
+from .forms import login 
+from .forms import update_user_form
 
 
 # Create your views here.
@@ -24,9 +25,17 @@ class User(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+    
 #all function
 
-#create user function
+#create user function -----------------------------------------------------------------------------
 def create_user(request):
     if request.method == 'POST':
         form = create_user_form(request.POST) 
@@ -61,7 +70,7 @@ def create_user(request):
     return render(request, 'create_user_form.html', {'form': form})
 
 
-#handle login form submission.
+#handle login form submission. ---------------------------------------------------------------------
 def login_form(request):
     if request.method == 'POST':
         form = login(request.POST) 
@@ -79,26 +88,68 @@ def login_form(request):
         form = login()
     return render(request, 'login.html', {'form': form})
 
-#all pages
+#get user data that will be pass to the update user function
+def get_user_data_from_api(user_id):
+    response = requests.get(f'http://127.0.0.1:8000/api/users/{user_id}/')
+    
+    if response.status_code == 200:
+        user_data = response.json()
+        return user_data
+    else:
+        return {}
+    
+#Update user user function
+def update_user(request, user_id):
+    if request.method == 'POST':
+        form = update_user_form(request.POST) 
+        if form.is_valid():
+            password = form.cleaned_data['password']
+
+            user_data = {
+                'password': password
+            }
+
+            # Send a PUT request to update the user data
+            response = requests.put(f'http://127.0.0.1:8000/api/users/{user_id}/', data=user_data)
+
+            if response.status_code == 200:
+                messages.success(request, 'Password updated successfully!')
+                return redirect('user_list')
+            else:
+                messages.error(request, f'Error updating password: {response.status_code}')
+        else:
+            messages.error(request, 'Invalid form. Please check your inputs.')
+    else:
+        user_data = get_user_data_from_api(user_id)
+        form = update_user_form()
+        
+    return render(request, 'update_user_form.html', {'form': form})
+
+
+#all pages--------------------------------------------------------------------------------------------
 
 #redirect to login
 def redirect_to_login(request):
     return redirect('login_form')
 
-#login page
+#login page ----------------------------------------------------------------------------------------
 def home(request):
     form = login() 
     return render(request, 'login.html', {'form': form})
 
-#dashboard page
+#dashboard page --------------------------------------------------------------------------------
 def dashboard(request):
     return render(request, 'dashboard.html')
 
-#create user page
+#create user page -----------------------------------------------------------------------------
 def create_user_page(request):
     form = create_user_form() 
     return render(request, 'create_user_form.html' , {'form': form})
 
-#display user list page
+#display user list page -----------------------------------------------------------------------
 def user_list(request):
     return render(request, 'user_list.html')
+
+#display update user page -----------------------------------------------------------------------
+def user_list(request):
+    return render(request, 'update_user.html')
