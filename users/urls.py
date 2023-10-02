@@ -16,4 +16,13 @@ urlpatterns = [
             'delete': 'destroy',
         })),
     ])),
+
+    #api
+    path('create_user/', views.create_user, name='create_user'),
+
+    #pages
+    #dashboard page
+    path('dashboard/', views.dashboard, name='dashboard'),
+    #create user page
+    path('create_user_page/', views.create_user_page, name='create_user_page'),
 ]

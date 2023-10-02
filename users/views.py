@@ -78,11 +78,6 @@ def login_form(request):
 def redirect_to_login(request):
     return redirect('login_form')
 
-#logout user
-def logout_view(request):
-    logout(request)
-    return redirect('home')
-
 #login page
 def home(request):
     form = login() 
@@ -91,3 +86,8 @@ def home(request):
 #dashboard page
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+#create user page
+def create_user_page(request):
+    form = create_user_form() 
+    return render(request, 'create_user_form.html' , {'form': form})
