@@ -30,4 +30,10 @@ urlpatterns = [
     path('expired_file_list/', views.expired_file_list, name='expired_file_list'),
     #expired file page
     path('to_be_renew_file_list/', views.to_be_renew_file_list, name='to_be_renew_file_list'),
+    #create new file page
+    path('create_new_file_form/', views.create_new_file_form, name='create_new_file_form'),
+
+    #api 
+    #create new file api
+    path('create_new_file/', views.create_new_file, name='create_new_file'),
 ]

@@ -17,6 +17,15 @@
     >
       <b> User List</b>
     </a>
+    <a
+      href="{% url 'create_new_file_form' %}"
+      class="custom-modal-button"
+      role="button"
+      aria-pressed="true"
+      style="text-decoration: none"
+    >
+      <b>Create New File</b>
+    </a>
     <h1>Welcome</h1>
     <a
       href="{% url 'valid_file_list' %}"
@@ -45,9 +54,20 @@
     >
       <b> To Be Renew File List</b>
     </a>
-    <h1>File Statistics</h1>
-    <canvas id="pieChart" width="50" height="50"></canvas>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{% static 'js/pie.js' %}"></script>
+    <style>
+      .card {
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px;
+      }
+    </style>
+    <div class="card">
+      <h1>File Statistics</h1>
+      <canvas id="pieChart"></canvas>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script src="{% static 'js/pie.js' %}"></script>
+    </div>
   </body>
 </html>
