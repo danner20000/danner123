@@ -2,16 +2,16 @@ from django.urls import path,include
 from . import views
 
 from .views import (
-    User
+    Users
 )
 
 urlpatterns = [
     path('',include([
-        path('', User.as_view({
+        path('', Users.as_view({
             'get': 'list',
             'post': 'create',
         })),
-        path('<int:pk>/', User.as_view({
+        path('<int:pk>/', Users.as_view({
             'put': 'update',
             'delete': 'destroy',
         })),

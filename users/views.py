@@ -16,7 +16,7 @@ from .forms import update_user_form
 
 
 # Create your views here.
-class User(ModelViewSet):
+class Users(ModelViewSet):
     serializer_class = UserSerializer
 
     def get_queryset(self):
@@ -150,7 +150,9 @@ def create_user_page(request):
 
 #display user list page -----------------------------------------------------------------------
 def user_list(request):
-    return render(request, 'user_list.html')
+    users = User.objects.all()
+    context = {"users": users}
+    return render(request, 'user_list.html', context)
 
 #display update user page -----------------------------------------------------------------------
 def update_user(request, user_id):
