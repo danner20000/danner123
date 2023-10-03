@@ -28,7 +28,7 @@ async function generateTable(data) {
 document.addEventListener("click", function (event) {
   if (event.target.classList.contains("edit-user-btn")) {
     var userId = event.target.dataset.userId;
-    window.location.href = `/update_user/${userId}/`;
+    window.location.href = `update_user/${userId}/`;
   }
 });
 
