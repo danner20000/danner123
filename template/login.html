@@ -3,21 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
     <title>Login</title>
   </head>
   <body>
-    <h2>Welcome</h2>
-    <form method="post" action="{% url 'login_form' %}">
-      {% csrf_token %}
-      <div class="input-group">
-        <label for="email" class="label">Email:</label>
-        {{ form.email }}
-      </div>
-      <div class="input-group">
-        <label for="password" class="label">Password:</label>
-        {{ form.password }}
-      </div>
-      <button type="submit" class="submit-btn">Login</button>
-    </form>
+    <div class="container">
+      <h2>Welcome</h2>
+      <form method="post" action="{% url 'login_form' %}">
+        {% csrf_token %}
+        <div class="input-group">
+          <label for="email" class="label">Email:</label>
+          {{ form.email }}
+        </div>
+        <div class="input-group">
+          <label for="password" class="label">Password:</label>
+          {{ form.password }}
+        </div>
+        <button type="submit" class="submit-btn">Login</button>
+      </form>
+    </div>
   </body>
 </html>

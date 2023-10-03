@@ -22,6 +22,8 @@ urlpatterns = [
     #api
     #create user
     path('create_user/', views.create_user, name='create_user'),
+    #update user
+    path('update_user/', views.update_user, name='update_user'),
    
 
     #pages
@@ -32,6 +34,6 @@ urlpatterns = [
     #create user list page
     path('user_list/', views.user_list, name='user_list'),
     #create update user page
-    path('update_user/<int:user_id>/', views.update_user, name='update_user'),
+    path('update_user_page/<int:user_id>/', views.update_user_page, name='update_user_page'),
 
 ]

@@ -8,11 +8,12 @@
   </head>
   <body>
     <h1>Update User</h1>
-    <form id="updateUserForm" method="POST">
+    <form id="updateUserForm" method="POST" action="{% url 'update_user' %}">
       {% csrf_token %} {{ form.as_p }}
       <button type="submit">Update</button>
     </form>
     <a href="{% url 'user_list' %}">Back</a>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'js/admin_update_user.js' %}"></script>
   </body>
 </html>

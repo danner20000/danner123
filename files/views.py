@@ -11,6 +11,7 @@ import requests
 
 #import from form
 from .forms import create_file
+
 # Create your views here.
 class File_Document(ModelViewSet):
     serializer_class = FileSerializer
@@ -76,7 +77,6 @@ def create_new_file(request):
 
           
             return redirect('create_new_file_form') 
-
     else:
         form = create_file()
 
@@ -99,4 +99,5 @@ def to_be_renew_file_list(request):
 
 #display create new file pages
 def create_new_file_form(request):
-    return render(request, 'create_new_file_form.html')
+    context = {'form': create_file}
+    return render(request, 'create_new_file_form.html',context)

@@ -24,7 +24,7 @@ class create_user_form(forms.Form):
         return cleaned_data
     
 class update_user_form(forms.Form):
-    first_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     password = forms.CharField(widget=forms.PasswordInput)

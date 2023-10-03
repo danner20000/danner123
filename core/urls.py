@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.views import redirect_to_login, login_form,dashboard, create_user, create_user_page, user_list, update_user
+from users.views import redirect_to_login, login_form,dashboard, create_user, create_user_page, user_list, update_user, update_user_page
 from files.views import valid_file_list ,expired_file_list ,to_be_renew_file_list, create_new_file_form,create_new_file
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,7 +34,7 @@ urlpatterns = [
     #Display user list page
     path('user_list/', user_list, name='user_list'),
     #Display update user page
-    path('update_user/', update_user, name='update_user'),
+    path('update_user_page/', update_user_page, name='update_user_page'),
     #Display valid file page
     path('valid_file_list/', valid_file_list, name='valid_file_list'),
     #Display expired file page
@@ -56,4 +56,6 @@ urlpatterns = [
     #file
      #create file api function
     path('create_new_file/', create_new_file, name='create_new_file'),
+    #update user api
+    path('update_user/', update_user, name='update_user'),
 ]

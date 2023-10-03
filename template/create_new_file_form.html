@@ -13,6 +13,7 @@
       action="{% url 'create_new_file' %}"
     >
       {% csrf_token %} {{ form.as_p }}
+      <a href="{% url 'dashboard' %}">Cancel</a>
       <button type="submit">Submit</button>
     </form>
   </body>

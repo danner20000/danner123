@@ -140,10 +140,8 @@ def user_list(request):
     return render(request, 'user_list.html', context)
 
 #display update user page -----------------------------------------------------------------------
-def update_user(request, user_id):
+def update_user_page(request, user_id):
     user = get_object_or_404(User, id=user_id)
-
-    # Create an instance of the form and populate it with user data
     form = update_user_form(initial={
         'first_name': user.first_name,
         'last_name': user.last_name,

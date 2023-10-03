@@ -37,7 +37,7 @@
           <td>
             <a
               class="btn btn-custom btn-sm edit-user-btn"
-              href="{% url 'update_user' user_id=user.id %}"
+              href="{% url 'update_user_page' user_id=user.id %}"
               data-user-id="{{ user.id }}"
               >Edit</a
             >
@@ -49,6 +49,7 @@
         {% endfor %}
       </tbody>
     </table>
+    <a href="{% url 'dashboard' %}">Back</a>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'js/admin_delete_user.js' %}"></script>
