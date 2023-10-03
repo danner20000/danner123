@@ -49,3 +49,11 @@ class File_Document(ModelViewSet):
 #display valid file pages
 def valid_file_list(request):
     return render(request, 'valid_file_list.html')
+
+#display expired file pages
+def expired_file_list(request):
+    return render(request, 'expired_file_list.html')
+
+#display expired file pages
+def expired_file_list(request):
+    return render(request, 'to_be_renew_file_list.html')
