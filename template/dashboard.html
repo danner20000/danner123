@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    {% load static %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
   </head>
@@ -44,8 +45,9 @@
     >
       <b> To Be Renew File List</b>
     </a>
-    <canvas id="pieChart" width="400" height="400"></canvas>
-    <script src="{% static 'js/pie.js' %}"></script>
+    <h1>File Statistics</h1>
+    <canvas id="pieChart" width="50" height="50"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/pie.js' %}"></script>
   </body>
 </html>
