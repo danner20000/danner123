@@ -1,7 +1,21 @@
 from django import forms
-from .models import Files
 
 class create_file(forms.Form):
-    class Meta:
-        model = Files
-        fields = ['select_BU', 'document_type', 'department', 'upload_file', 'renewal_date', 'expiry_date']
+    select_BU = forms.ChoiceField(choices=[
+            ('fishing company', 'Fishing Company'),
+            ('holy child', 'Holy Child'),
+            ('sto. niño', 'Sto. Niño'),
+        ], initial='Select Company', required=True)
+    document_type = forms.ChoiceField(choices=[
+            ('contract', 'Contract'),
+            ('invoice', 'Invoice'),
+            ('report', 'Report'),
+        ], initial='Select Document Type', required=True)
+    department = forms.ChoiceField(choices=[
+            ('department of health', 'Department of Health'),
+            ('human resource', 'Human Resource'),
+            ('registrar', 'Registrar'),
+        ], initial='Select Department', required=True)
+    upload_file = forms.FileField(required=True)
+    renewal_date = forms.DateField(required=True, widget=forms.TextInput(attrs={'type': 'date'}))
+    expiry_date = forms.DateField(required=True, widget=forms.TextInput(attrs={'type': 'date'}))

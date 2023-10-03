@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render ,redirect
 from .serializers import FileSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -7,6 +7,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.contrib import messages
 import requests
+
 
 #import from form
 from .forms import create_file
@@ -51,35 +52,36 @@ class File_Document(ModelViewSet):
 #create new file 
 def create_new_file(request):
     if request.method == 'POST':
-        form1 = create_file(request.POST) 
-        if form1.is_valid():
-            select_BU = form1.cleaned_data['select_BU']
-            document_type = form1.cleaned_data['document_type']
-            department = form1.cleaned_data['department']
-            upload_file = form1.cleaned_data['upload_file']
-            renewal_date = form1.cleaned_data['renewal_date']
-            expiry_date = form1.cleaned_data['expiry_date']
+        form = create_file(request.POST, request.FILES)
+        if form.is_valid():
 
-            user_data = {
-                'select_BU': select_BU,
-                'document_type': document_type,
-                'department': department,
-                'upload_file': upload_file,
-                'renewal_date': renewal_date,
-                'expiry_date': expiry_date
-            }
-            response = requests.post('http://127.0.0.1:8000/api/file/', data=user_data)
+            select_BU = form.cleaned_data['select_BU']
+            document_type = form.cleaned_data['document_type']
+            department = form.cleaned_data['department']
+            upload_file = form.cleaned_data['upload_file']
+            renewal_date = form.cleaned_data['renewal_date']
+            expiry_date = form.cleaned_data['expiry_date']
 
-            if response.status_code == 201: 
-                messages.success(request, 'User Created successful!')
-                return render(request, 'create_new_file_form.html')
-            else:
-                messages.error(request, f'Error creating user: {response.status_code}')
-        else:
-            messages.error(request, 'Invalid forms. Please check your inputs.')
+
+            file_document = File_Document(
+                select_BU=select_BU,
+                document_type=document_type,
+                department=department,
+                upload_file=upload_file,
+                renewal_date=renewal_date,
+                expiry_date=expiry_date,
+                user=request.user  
+            )
+            file_document.save()
+
+          
+            return redirect('create_new_file_form') 
+
     else:
-        form1 = create_file()
-    return render(request, 'create_user_form.html', {'form': form1})
+        form = create_file()
+
+    return render(request, 'create_new_file_form.html', {'form': form})
+
 
 
 #all pages
