@@ -2,13 +2,12 @@ from django.shortcuts import render
 from .serializers import FileSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from .models import File_Document
 from rest_framework.decorators import action
 from django.utils import timezone
 from datetime import timedelta
 
 # Create your views here.
-class User(ModelViewSet):
+class File_Document(ModelViewSet):
     serializer_class = FileSerializer
 
     def get_queryset(self):
@@ -25,6 +24,7 @@ class User(ModelViewSet):
         queryset = self.get_queryset().filter(expiry_date__lt=timezone.now())
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
 #get the valid file
     @action(detail=False, methods=['get'])
     def valid_file(self, request):
@@ -35,6 +35,7 @@ class User(ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
 #get the file to be renew
     @action(detail=False, methods=['get'])
     def to_be_renew(self, request):
@@ -42,3 +43,9 @@ class User(ModelViewSet):
         queryset = self.get_queryset().filter(expiry_date__gte=timezone.now(), expiry_date__lte=two_months_before_expiry)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
+
+#all pages
+#display valid file pages
+def valid_file_list(request):
+    return render(request, 'valid_file_list.html')

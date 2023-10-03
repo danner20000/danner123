@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users.views import redirect_to_login, login_form,dashboard, create_user, create_user_page, user_list, update_user
-
+from files.views import valid_file_list
 urlpatterns = [
     path('admin/', admin.site.urls),
      path('api/', include([
@@ -35,6 +35,8 @@ urlpatterns = [
     path('user_list/', user_list, name='user_list'),
     #Display update user page
     path('update_user/', update_user, name='update_user'),
+    #Display valid file page
+    path('valid_file_list/', valid_file_list, name='valid_file_list'),
 
 
     #functions

@@ -17,5 +17,23 @@
       <b> User List</b>
     </a>
     <h1>Welcome</h1>
+    <a
+      href="{% url 'valid_file_list' %}"
+      class="custom-modal-button"
+      role="button"
+      aria-pressed="true"
+      style="text-decoration: none"
+    >
+      <b> Valid File List</b>
+    </a>
+    <a
+      href="{% url 'expired_file_list' %}"
+      class="custom-modal-button"
+      role="button"
+      aria-pressed="true"
+      style="text-decoration: none"
+    >
+      <b> Expired File List</b>
+    </a>
   </body>
 </html>

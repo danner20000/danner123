@@ -26,7 +26,7 @@ async function generateTable(data) {
 
 async function fetchFileList() {
   try {
-    const response = await fetch("/api/file/valid_file/");
+    const response = await fetch("/api/file/expired/");
     const data = await response.json();
     fileData = data;
     console.log(data);

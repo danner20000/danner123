@@ -1,11 +1,11 @@
 from django.urls import path,include
-
+from . import views
 from .views import (
     File_Document
 )
 
 urlpatterns = [
-    '''path('',include([
+    path('',include([
         path('', File_Document.as_view({
             'get': 'list',
             'post': 'create',
@@ -22,6 +22,7 @@ urlpatterns = [
         })),
         path('to_be_renew/', File_Document.as_view({
             'get': 'to_be_renew',  # Custom action for files to be renewed
-        })),
-    ])),'''
+        })),  
+    ])),
+     path('valid_file_list/', views.valid_file_list, name='valid_file_list'),
 ]
