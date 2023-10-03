@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
+    <title>Valid File List</title>
+  </head>
+  <body>
+    {% csrf_token %}
+    <table class="table" id="dtBasicExample">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Company name</th>
+          <th scope="col">Department</th>
+          <th scope="col">Document Type</th>
+          <th scope="col">Renewal Date</th>
+          <th scope="col">Expired Date</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <script src="{% static 'js/to_be_renew_file_list.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </body>
+</html>
