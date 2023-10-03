@@ -8,6 +8,15 @@
   </head>
   <body>
     {% csrf_token %}
+    <a
+      href="{% url 'create_user_page' %}"
+      class="custom-modal-button"
+      role="button"
+      aria-pressed="true"
+      style="text-decoration: none"
+    >
+      <b> Add User</b>
+    </a>
     <table class="table" id="dtBasicExample">
       <thead>
         <tr>

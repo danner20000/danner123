@@ -18,7 +18,9 @@ urlpatterns = [
     ])),
 
     #api
+    #create user
     path('create_user/', views.create_user, name='create_user'),
+   
 
     #pages
     #dashboard page
@@ -27,4 +29,7 @@ urlpatterns = [
     path('create_user_page/', views.create_user_page, name='create_user_page'),
     #create user list page
     path('user_list/', views.user_list, name='user_list'),
+    #create update user page
+    path('update_user/<int:user_id>/', views.update_user, name='update_user'),
+
 ]

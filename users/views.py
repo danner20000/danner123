@@ -6,6 +6,8 @@ from .serializers import UserSerializer
 from django.contrib import messages
 import requests
 from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, get_object_or_404
+from .models import User
 
 #import from form
 from .forms import create_user_form
@@ -151,5 +153,11 @@ def user_list(request):
     return render(request, 'user_list.html')
 
 #display update user page -----------------------------------------------------------------------
-def user_list(request):
-    return render(request, 'update_user.html')
+def update_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    context = {'user': user}
+    return render(request, 'update_user.html', context)
+
+
+
+

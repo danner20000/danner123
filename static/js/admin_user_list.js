@@ -1,7 +1,7 @@
 const rowsPerPage = 5;
 let userData = null;
 
-function generateTable(data) {
+async function generateTable(data) {
   const table = document
     .getElementById("dtBasicExample")
     .querySelector("tbody");
@@ -15,9 +15,7 @@ function generateTable(data) {
       <td>${user.last_name}</td>
       <td>${user.email}</td>
       <td>
-      <button class="btn btn-custom btn-sm" onclick="editUser(${
-        user.id
-      })">Edit</button>
+      <a class="btn btn-custom btn-sm edit-user-btn" href="update_user" data-user-id="{{ user.id }}">Edit</a>
         <button class="btn btn-danger btn-sm" onclick="deleteUser(${
           user.id
         })">Delete</button>
@@ -27,39 +25,46 @@ function generateTable(data) {
   });
 }
 
-function deleteUser(userId) {
+document.addEventListener("click", function (event) {
+  if (event.target.classList.contains("edit-user-btn")) {
+    var userId = event.target.dataset.userId;
+    window.location.href = `/update_user/${userId}/`;
+  }
+});
+
+async function deleteUser(userId) {
   const csrftoken = $("[name=csrfmiddlewaretoken]").val();
 
-  fetch(`http://127.0.0.1:8000/api/users/${userId}/`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": csrftoken,
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("User deleted successfully:", data);
-      fetchUserList(); // Refresh the user list after deletion
-    })
-    .catch((error) => {
-      console.error("Error deleting user:", error);
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/users/${userId}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("User deleted successfully:", data);
+    await fetchUserList(); // Refresh the user list after deletion
+  } catch (error) {
+    console.error("Error deleting user:", error);
+  }
 }
 
-function fetchUserList() {
-  fetch("/api/users/")
-    .then((response) => response.json())
-    .then((data) => {
-      userData = data;
-      generateTable(data);
-    })
-    .catch((error) => console.error("Error:", error));
+async function fetchUserList() {
+  try {
+    const response = await fetch("/api/users/");
+    const data = await response.json();
+    userData = data;
+    await generateTable(data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 fetchUserList();

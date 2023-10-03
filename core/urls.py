@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.views import redirect_to_login, login_form,dashboard, create_user, create_user_page, user_list
+from users.views import redirect_to_login, login_form,dashboard, create_user, create_user_page, user_list, update_user
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +32,8 @@ urlpatterns = [
     path('create_user_page/', create_user_page, name='create_user_page'),
     #Display user list page
     path('user_list/', user_list, name='user_list'),
+    #Display update user page
+    path('update_user/', update_user, name='update_user'),
 
 
     #functions
