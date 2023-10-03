@@ -15,7 +15,9 @@ urlpatterns = [
             'put': 'update',
             'delete': 'destroy',
         })),
+      
     ])),
+    path('users/<int:pk>/', Users.as_view({'delete': 'destroy'}), name='users-detail'),
 
     #api
     #create user

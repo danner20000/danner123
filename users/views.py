@@ -8,6 +8,7 @@ import requests
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, get_object_or_404
 from .models import User
+from rest_framework import status
 
 #import from form
 from .forms import create_user_form
@@ -27,14 +28,13 @@ class Users(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
+    def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
+    
+
 #all function
 
 #create user function -----------------------------------------------------------------------------
@@ -71,6 +71,27 @@ def create_user(request):
         form = create_user_form()
     return render(request, 'create_user_form.html', {'form': form})
 
+#update user data -----------------------------------------------------------------------------
+def update_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if request.method == 'POST':
+        form = update_user_form(request.POST)
+        if form.is_valid():
+            # Update user information here
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('user_list')  # Assuming there's a URL named 'user_list'
+    else:
+        form = update_user_form(initial={
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+        })
+    context = {'user': user, 'form': form}
+    return render(request, 'update_user.html', context)
 
 #handle login form submission. ---------------------------------------------------------------------
 def login_form(request):
@@ -89,43 +110,7 @@ def login_form(request):
     else:
         form = login()
     return render(request, 'login.html', {'form': form})
-
-#get user data that will be pass to the update user function
-def get_user_data_from_api(user_id):
-    response = requests.get(f'http://127.0.0.1:8000/api/users/{user_id}/')
     
-    if response.status_code == 200:
-        user_data = response.json()
-        return user_data
-    else:
-        return {}
-    
-#Update user user function
-def update_user(request, user_id):
-    if request.method == 'POST':
-        form = update_user_form(request.POST) 
-        if form.is_valid():
-            password = form.cleaned_data['password']
-
-            user_data = {
-                'password': password
-            }
-
-            # Send a PUT request to update the user data
-            response = requests.put(f'http://127.0.0.1:8000/api/users/{user_id}/', data=user_data)
-
-            if response.status_code == 200:
-                messages.success(request, 'Password updated successfully!')
-                return redirect('user_list')
-            else:
-                messages.error(request, f'Error updating password: {response.status_code}')
-        else:
-            messages.error(request, 'Invalid form. Please check your inputs.')
-    else:
-        user_data = get_user_data_from_api(user_id)
-        form = update_user_form()
-        
-    return render(request, 'update_user_form.html', {'form': form})
 
 
 #all pages--------------------------------------------------------------------------------------------
@@ -157,8 +142,17 @@ def user_list(request):
 #display update user page -----------------------------------------------------------------------
 def update_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    context = {'user': user}
+
+    # Create an instance of the form and populate it with user data
+    form = update_user_form(initial={
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'email': user.email,
+    })
+
+    context = {'form': form}
     return render(request, 'update_user.html', context)
+
 
 
 

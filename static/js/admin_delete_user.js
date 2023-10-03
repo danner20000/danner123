@@ -1,21 +1,30 @@
-function deleteUser(userId) {
-  fetch(`/api/users/${userId}/`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": getCookie("csrftoken"),
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("User deleted successfully:", data);
-    })
-    .catch((error) => {
-      console.error("Error deleting user:", error);
+$(document).ready(function () {
+  $(".delete-button").click(function () {
+    var userId = $(this).data("user-id");
+
+    $.ajax({
+      type: "DELETE",
+      url: "/api/users/" + userId + "/",
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      success: function () {},
+      error: function () {},
     });
-}
+  });
+
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        if (cookie.substring(0, name.length + 1) === name + "=") {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+});

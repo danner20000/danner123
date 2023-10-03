@@ -37,16 +37,19 @@
           <td>
             <a
               class="btn btn-custom btn-sm edit-user-btn"
-              href="update_user"
+              href="{% url 'update_user' user_id=user.id %}"
               data-user-id="{{ user.id }}"
               >Edit</a
             >
-            <button onclick="deleteUser(user.id)">Delete User</button>
+            <button class="delete-button" data-user-id="{{ user.id }}">
+              Delete User
+            </button>
           </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'js/admin_delete_user.js' %}"></script>
   </body>
