@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from files.models import Files
+from files.models import File_Document
 
 class FileSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
     class Meta:
-        model = Files
+        model = File_Document
         fields = (
             'user',
             'select_BU',

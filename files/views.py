@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .serializers import FileSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from .models import Files
+from .models import File_Document
 from rest_framework.decorators import action
 from django.utils import timezone
 from datetime import timedelta
