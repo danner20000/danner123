@@ -2,8 +2,12 @@ from django import forms
 
 #login form
 class login(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'
+    }))
 
 #create user form
 class create_user_form(forms.Form):
