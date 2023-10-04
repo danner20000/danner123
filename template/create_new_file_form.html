@@ -2,19 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/create_user.css' %}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create New File</title>
   </head>
   <body>
-    <h1>Create File</h1>
-    <form
-      method="post"
-      onsubmit="saveFile(event);"
-      action="{% url 'create_new_file' %}"
-    >
-      {% csrf_token %} {{ form.as_p }}
-      <a href="{% url 'dashboard' %}">Cancel</a>
-      <button type="submit">Submit</button>
-    </form>
+    {% include 'navigation.html' %}
+    <h3>Create File</h3>
+    <div class="small-container">
+      <form method="post" action="{% url 'create_new_file' %}">
+        {% csrf_token %} {{ form.as_p }}
+        <a class="cancel-btn" href="{% url 'dashboard' %}">Cancel</a>
+        <button class="user-submit-btn" type="submit">Submit</button>
+      </form>
+    </div>
+    <script src="{% static 'js/create_new_file.js' %}"></script>
   </body>
 </html>

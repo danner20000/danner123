@@ -10,23 +10,34 @@ from django.shortcuts import render, get_object_or_404
 from .models import User
 from rest_framework import status
 from django.core.paginator import Paginator
-
+from rest_framework.pagination import PageNumberPagination
 
 #import from form
 from .forms import create_user_form
 from .forms import login 
 from .forms import update_user_form
 
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size = 5  # Set the desired page size here
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
 # Create your views here.
 class Users(ModelViewSet):
     serializer_class = UserSerializer
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         return self.serializer_class.Meta.model.objects.all()
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
@@ -64,7 +75,7 @@ def create_user(request):
 
             if response.status_code == 201: 
                 messages.success(request, 'User Created successful!')
-                return render(request, 'user_list.html')
+                return redirect('user_list') 
             else:
                 messages.error(request, f'Error creating user: {response.status_code}')
         else:
@@ -85,7 +96,7 @@ def update_user(request, user_id):
             user.email = form.cleaned_data['email']
             user.set_password(form.cleaned_data['password'])
             user.save()
-            return redirect('user_list')  # Assuming there's a URL named 'user_list'
+            return redirect('user_list') 
     else:
         form = update_user_form(initial={
             'first_name': user.first_name,

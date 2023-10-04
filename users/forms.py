@@ -37,10 +37,20 @@ class create_user_form(forms.Form):
 
         return cleaned_data
 
-    
-class update_user_form(forms.Form):
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-    password = forms.CharField(widget=forms.PasswordInput)
 
+class update_user_form(forms.Form):
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;',
+        'readonly': 'readonly' 
+    }))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;',
+        'readonly': 'readonly' 
+    }))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;',
+        'readonly': 'readonly' 
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'
+    }))

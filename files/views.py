@@ -7,13 +7,14 @@ from django.utils import timezone
 from datetime import timedelta
 from django.contrib import messages
 import requests
+from .models import File_Document
 
 
 #import from form
 from .forms import create_file
 
 # Create your views here.
-class File_Document(ModelViewSet):
+class File_Document_view(ModelViewSet):
     serializer_class = FileSerializer
 
     def get_queryset(self):
@@ -55,32 +56,24 @@ def create_new_file(request):
     if request.method == 'POST':
         form = create_file(request.POST, request.FILES)
         if form.is_valid():
-
-            select_BU = form.cleaned_data['select_BU']
-            document_type = form.cleaned_data['document_type']
-            department = form.cleaned_data['department']
-            upload_file = form.cleaned_data['upload_file']
-            renewal_date = form.cleaned_data['renewal_date']
-            expiry_date = form.cleaned_data['expiry_date']
-
-
+            # Assuming 'form' contains cleaned data including all fields
             file_document = File_Document(
-                select_BU=select_BU,
-                document_type=document_type,
-                department=department,
-                upload_file=upload_file,
-                renewal_date=renewal_date,
-                expiry_date=expiry_date,
-                user=request.user  
+                user=request.user,
+                select_BU=form.cleaned_data['select_BU'],
+                document_type=form.cleaned_data['document_type'],
+                department=form.cleaned_data['department'],
+                upload_file=form.cleaned_data['upload_file'],
+                renewal_date=form.cleaned_data['renewal_date'],
+                expiry_date=form.cleaned_data['expiry_date']
             )
             file_document.save()
 
-          
-            return redirect('create_new_file_form') 
+            return redirect('create_new_file_form')
+
     else:
         form = create_file()
-
     return render(request, 'create_new_file_form.html', {'form': form})
+
 
 
 

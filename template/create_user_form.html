@@ -8,15 +8,16 @@
     <title>Create User</title>
   </head>
   <body>
+    {% include 'navigation.html' %}
     <h3>Create User</h3>
-    <div class="container mt-4 custom-container">
-      <form method="post" action="{% url 'create_user' %}">
-        {% csrf_token %} {{ form.as_p }}
-        <div class="text-end">
-          <a class="cancel-btn" href="{% url 'user_list' %}">Cancel</a>
-          <button class="user-submit-btn" type="submit">Submit</button>
-        </div>
-      </form>
-    </div>
+    <div class="small-container">
+    <form method="post" action="{% url 'create_user' %}">
+      {% csrf_token %} {{ form.as_p }}
+      <div class="text-end">
+        <a class="cancel-btn" href="{% url 'user_list' %}">Cancel</a>
+        <button class="user-submit-btn" type="submit">Submit</button>
+      </div>
+      </div>
+    </form>
   </body>
 </html>

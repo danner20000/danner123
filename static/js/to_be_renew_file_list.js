@@ -10,16 +10,14 @@ async function generateTable(data) {
   data.forEach((file, index) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${index + 1}</td>
-      <td>${file.select_BU}</td>
-      <td>${file.document_type}</td>
-      <td>${file.department}</td>
-      <td>${file.renewal_date}</td>
-      <td>${file.expiry_date}</td>
-      <td>
-      <button class="btn btn-danger btn-sm">Renew</button>
-    </td>
-    `;
+    <td>${index + 1}</td>
+    <td>${file.select_BU}</td>
+    <td>${file.document_type}</td>
+    <td>${file.department}</td>
+    <td>${file.renewal_date}</td>
+    <td>${file.expiry_date}</td>
+    <td>${file.user}</td>
+  `;
     table.appendChild(tr);
   });
 }

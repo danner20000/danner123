@@ -13,21 +13,16 @@
     />
     <title>User List</title>
   </head>
-  <style>
-    .custom-delete-btn {
-      background: linear-gradient(to bottom, #d1e8a1, #9acd32, #7ea829);
-    }
-  </style>
+
   <body>
     {% include 'navigation.html' %}
     <div class="m-2">
       <a
         href="{% url 'create_user_page' %}"
-        class="btn btn-primary"
+        class="btn custom-add-user"
         role="button"
+        >Add User</a
       >
-        Add User
-      </a>
     </div>
 
     <div class="container mt-2 custom-container">
@@ -55,14 +50,15 @@
               <td>{{ user.email }}</td>
               <td>
                 <a
-                  class="btn btn-custom btn-sm edit-user-btn"
                   href="{% url 'update_user_page' user_id=user.id %}"
+                  class="btn custom-edit-user btn-sm"
+                  role="button"
+                  aria-pressed="true"
                   data-user-id="{{ user.id }}"
+                  >Edit</a
                 >
-                  Edit
-                </a>
                 <button
-                  class="btn delete-button custom-delete-btn"
+                  class="btn btn-danger btn-sm"
                   data-user-id="{{ user.id }}"
                 >
                   Delete
@@ -72,14 +68,16 @@
             {% endfor %}
           </tbody>
         </table>
+
+        <!-- Pagination controls here -->
+        <div id="pagination"></div>
       </div>
     </div>
-    <a href="{% url 'dashboard' %}" class="btn btn-secondary float-end m-2">
-      Back
-    </a>
 
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary float-end m-2"
+      >Back</a
+    >
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{% static 'js/pagination.js' %}"></script>
     <script src="{% static 'js/admin_delete_user.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>

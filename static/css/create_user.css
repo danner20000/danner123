@@ -1,6 +1,6 @@
-.container {
-  max-width: 400px;
-  margin: auto; /* Center the container horizontally */
+.small-container {
+  max-width: 600px; /* Adjust this value as needed */
+  margin: 0 auto; /* Center the container horizontally */
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -39,4 +39,8 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.custom-add-user {
+  background: linear-gradient(to bottom, #d1e8a1, #9acd32, #7ea829);
 }
