@@ -11,11 +11,21 @@ class login(forms.Form):
 
 #create user form
 class create_user_form(forms.Form):
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'
+    }))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'
+    }))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'
+    }))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'
+    }))
 
     def clean(self):
         cleaned_data = super().clean()
@@ -26,6 +36,7 @@ class create_user_form(forms.Form):
             raise forms.ValidationError("Passwords do not match. Please try again.")
 
         return cleaned_data
+
     
 class update_user_form(forms.Form):
     first_name = forms.CharField(max_length=30)
