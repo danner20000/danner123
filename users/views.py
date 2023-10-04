@@ -9,6 +9,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, get_object_or_404
 from .models import User
 from rest_framework import status
+from django.core.paginator import Paginator
+
 
 #import from form
 from .forms import create_user_form

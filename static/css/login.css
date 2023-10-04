@@ -33,28 +33,3 @@
 .submit-btn:hover {
   background-color: #0056b3;
 }
-
-/* Custom CSS for the Cancel button */
-.cancel-btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #ccc;
-  color: #fff;
-  text-decoration: none;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-/* Custom CSS for the Submit button */
-.user-submit-btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}

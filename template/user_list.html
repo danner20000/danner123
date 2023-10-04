@@ -13,10 +13,14 @@
     />
     <title>User List</title>
   </head>
-
+  <style>
+    .custom-delete-btn {
+      background: linear-gradient(to bottom, #d1e8a1, #9acd32, #7ea829);
+    }
+  </style>
   <body>
     {% include 'navigation.html' %}
-    <div class="m-4">
+    <div class="m-2">
       <a
         href="{% url 'create_user_page' %}"
         class="btn btn-primary"
@@ -26,7 +30,7 @@
       </a>
     </div>
 
-    <div class="container mt-4 custom-container">
+    <div class="container mt-2 custom-container">
       {% csrf_token %}
       <div class="custom-table-container">
         <table class="table caption-top" id="dtBasicExample">
@@ -58,10 +62,10 @@
                   Edit
                 </a>
                 <button
-                  class="btn btn-danger delete-button"
+                  class="btn delete-button custom-delete-btn"
                   data-user-id="{{ user.id }}"
                 >
-                  Delete User
+                  Delete
                 </button>
               </td>
             </tr>
@@ -70,11 +74,12 @@
         </table>
       </div>
     </div>
-    <a href="{% url 'dashboard' %}" class="btn btn-secondary float-end m-4">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary float-end m-2">
       Back
     </a>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/pagination.js' %}"></script>
     <script src="{% static 'js/admin_delete_user.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
