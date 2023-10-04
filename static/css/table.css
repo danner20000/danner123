@@ -1,0 +1,12 @@
+/* Custom CSS for the container */
+.custom-container {
+  background-color: #f8f9fa; /* Custom background color */
+  padding: 20px; /* Custom padding */
+  border-radius: 10px; /* Custom border radius */
+}
+
+/* Custom CSS for the table */
+.custom-table-container {
+  max-height: 220px; /* Set a fixed maximum height */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+}
