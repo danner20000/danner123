@@ -17,6 +17,9 @@ async function generateTable(data) {
       <td>${file.renewal_date}</td>
       <td>${file.expiry_date}</td>
       <td>${file.user.email}</td>
+      <td>
+      <button class="btn btn-danger btn-sm">Renew</button>
+    </td>
     `;
     table.appendChild(tr);
   });
