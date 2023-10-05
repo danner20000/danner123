@@ -35,16 +35,16 @@ class create_file(forms.Form):
         widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'})
     )
     upload_file = forms.FileField()
+    
     renewal_date = forms.DateField(
-        required=True,
-        widget=forms.TextInput(attrs={'type': 'date', 'style': 'display: inline-block; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'})
-    )
+    required=True,
+    widget=forms.TextInput(attrs={'type': 'date', 'style': 'width: 100%; display: block; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'})
+)
 
     expiry_date = forms.DateField(
-        required=True,
-        widget=forms.TextInput(attrs={'type': 'date', 'style': 'display: inline-block; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'})
-    )
-
+    required=True,
+    widget=forms.TextInput(attrs={'type': 'date', 'style': 'width: 100%; display: block; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'})
+)
 
 
 class renew_form(forms.Form):

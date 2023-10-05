@@ -3,23 +3,64 @@
   <head>
     <meta charset="UTF-8" />
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/create_user.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/create_file.css' %}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Renew File</title>
   </head>
   <body>
     {% include 'navigation.html' %}
     <h3>Renew File</h3>
-    <div class="container">
+    <div class="small-container">
       <form
         action="{% url 'renew_file' file_id=file.id %}"
         method="post"
         user-file-id="{{file_id}}"
         enctype="multipart/form-data"
       >
-        {% csrf_token %} {{ form.as_p }}
-        <a class="cancel-btn" href="{% url 'dashboard' %}">Cancel</a>
-        <button class="user-submit-btn" type="submit">Submit</button>
+        {% csrf_token %}
+        <div class="input-group">
+          <label for="{{ form.select_BU.id_for_label }}">Select Company:</label>
+          {{ form.select_BU }}
+        </div>
+
+        <div class="input-group">
+          <label for="{{ form.document_type.id_for_label }}"
+            >Document Type:</label
+          >
+          {{ form.document_type }}
+        </div>
+
+        <div class="input-group">
+          <label for="{{ form.department.id_for_label }}"
+            >Select Department:</label
+          >
+          {{ form.department }}
+        </div>
+
+        <div class="input-group">
+          <label for="{{ form.upload_file.id_for_label }}">Upload File:</label>
+          {{ form.upload_file }}
+        </div>
+
+        <div class="date-inputs">
+          <div class="input-group">
+            <label for="{{ form.renewal_date.id_for_label }}"
+              >Renewal Date:</label
+            >
+            {{ form.renewal_date }}
+          </div>
+
+          <div class="input-group">
+            <label for="{{ form.expiry_date.id_for_label }}"
+              >Expiry Date:</label
+            >
+            {{ form.expiry_date }}
+          </div>
+        </div>
+        <div class="text-end">
+          <a class="cancel-btn" href="{% url 'dashboard' %}">Cancel</a>
+          <button class="user-submit-btn" type="submit">Submit</button>
+        </div>
       </form>
     </div>
   </body>
