@@ -4,7 +4,7 @@
   align-items: center;
 }
 
-.card h6 {
+.card {
   text-align: center;
 }
 .pie-chart {
@@ -13,7 +13,7 @@
   margin: 0 auto;
 }
 
-h1 {
+h6 {
   text-align: center;
 }
 

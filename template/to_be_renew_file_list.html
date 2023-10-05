@@ -15,7 +15,7 @@
   </head>
   <body>
     {% include 'navigation.html' %} {% csrf_token %}
-    <div class="container mt-2 custom-container">
+    <div class="container mt-4 custom-container">
       <table class="table caption-top" id="dtBasicExample">
         <caption>
           List of files to be renewed
@@ -29,6 +29,7 @@
             <th scope="col">Renewal Date</th>
             <th scope="col">Expired Date</th>
             <th scope="col">Assign Person</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -37,6 +38,7 @@
     <a href="{% url 'dashboard' %}" class="btn btn-secondary float-end m-2"
       >Back</a
     >
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'js/to_be_renew_file_list.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
