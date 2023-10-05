@@ -6,11 +6,16 @@ $(document).ready(function () {
 
     var userId = window.location.pathname.split("/").filter(Boolean).pop();
 
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val(); // Get the CSRF token from the page
+
     $.ajax({
       type: "PATCH",
       url: `/update_user/${userId}/`,
       data: formData,
       dataType: "json",
+      headers: {
+        "X-CSRFToken": csrftoken, // Include the CSRF token in the request headers
+      },
       success: function (data) {
         console.log("User updated successfully:", data);
       },
@@ -18,17 +23,5 @@ $(document).ready(function () {
         console.error("Error updating user:", error);
       },
     });
-  });
-});
-
-$(document).ready(function () {
-  $(".delete-button").click(function () {
-    var userId = $(this).data("user-id");
-  });
-
-  $(".edit-user-btn").click(function (e) {
-    e.preventDefault();
-    var userId = $(this).data("user-id");
-    window.location.href = `/update_user/${userId}/`;
   });
 });

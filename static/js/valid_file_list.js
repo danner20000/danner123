@@ -28,7 +28,6 @@ async function fetchFileList() {
     const response = await fetch("/api/file/valid_file/");
     const data = await response.json();
     fileData = data;
-    console.log(data);
     await generateTable(data);
   } catch (error) {
     console.error("Error:", error);

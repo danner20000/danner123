@@ -5,13 +5,12 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from django.utils import timezone
 from datetime import timedelta
-from django.contrib import messages
-import requests
 from .models import File_Document
-
+from django.shortcuts import render, get_object_or_404
 
 #import from form
 from .forms import create_file
+from .forms import renew_file
 
 # Create your views here.
 class File_Document_view(ModelViewSet):
@@ -94,3 +93,10 @@ def to_be_renew_file_list(request):
 def create_new_file_form(request):
     context = {'form': create_file}
     return render(request, 'create_new_file_form.html',context)
+
+#display renew file pages
+def renew_file_form(request, file_id):
+    file = get_object_or_404(File_Document, id=file_id)
+    form = renew_file() 
+    context = {'form': form, 'file': file}
+    return render(request, 'renew_file_form.html', context)

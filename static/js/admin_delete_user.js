@@ -8,8 +8,14 @@ $(document).ready(function () {
       headers: {
         "X-CSRFToken": getCookie("csrftoken"),
       },
-      success: function () {},
-      error: function () {},
+      success: function () {
+        // Optionally, you can perform actions after successful deletion here.
+        // For example, you can remove the deleted user's row from the table.
+        $(this).closest("tr").remove();
+      },
+      error: function () {
+        // Handle errors here
+      },
     });
   });
 

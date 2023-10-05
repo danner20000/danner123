@@ -23,7 +23,7 @@ urlpatterns = [
     #create user
     path('create_user/', views.create_user, name='create_user'),
     #update user
-    path('update_user/', views.update_user, name='update_user'),
+    path('update_user/<int:user_id>', views.update_user, name='update_user'),
    
 
     #pages

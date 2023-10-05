@@ -32,6 +32,8 @@ urlpatterns = [
     path('to_be_renew_file_list/', views.to_be_renew_file_list, name='to_be_renew_file_list'),
     #create new file page
     path('create_new_file_form/', views.create_new_file_form, name='create_new_file_form'),
+    #renew file page
+    path('renew_file_form/<int:file_id>/', views.renew_file_form, name='renew_file_form'),
 
     #api 
     #create new file api

@@ -29,6 +29,7 @@ class Users(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
+        queryset = queryset.order_by('id')
         page = self.paginate_queryset(queryset)
 
         if page is not None:
@@ -158,8 +159,9 @@ def update_user_page(request, user_id):
         'email': user.email,
     })
 
-    context = {'form': form}
+    context = {'form': form, 'user': user} 
     return render(request, 'update_user.html', context)
+
 
 
 
