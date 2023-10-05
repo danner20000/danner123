@@ -10,28 +10,39 @@
   <body>
     {% include 'navigation.html' %} {% csrf_token %}
     <div class="container mt-4 custom-container">
-      <table class="table caption-top" id="dtBasicExample">
+      <table class="table caption-top">
         <caption>
-          List of valid files
+          List of Expired Files
         </caption>
         <thead>
           <tr>
             <th scope="col">No.</th>
-            <th scope="col">Company Name</th>
-            <th scope="col">Department</th>
+            <th scope="col">Select BU</th>
             <th scope="col">Document Type</th>
+            <th scope="col">Department</th>
             <th scope="col">Renewal Date</th>
-            <th scope="col">Expired Date</th>
+            <th scope="col">Expiry Date</th>
             <th scope="col">Assign Person</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody class="table-group-divider">
+          {% for file in valid_file %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ file.select_BU }}</td>
+            <td>{{ file.document_type }}</td>
+            <td>{{ file.department }}</td>
+            <td>{{ file.renewal_date }}</td>
+            <td>{{ file.expiry_date }}</td>
+            <td>{{ file.user}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
       </table>
     </div>
     <a href="{% url 'dashboard' %}" class="btn btn-secondary float-end m-2"
       >Back</a
     >
-    <script src="{% static 'js/valid_file_list.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>

@@ -5,6 +5,7 @@ class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File_Document
         fields = (
+            'id',
             'user',
             'select_BU',
             'document_type',

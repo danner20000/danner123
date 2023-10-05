@@ -24,18 +24,21 @@ urlpatterns = [
             'get': 'to_be_renew',  # Custom action for files to be renewed
         })),  
     ])),
-    #valid file page
-    path('valid_file_list/', views.valid_file_list, name='valid_file_list'),
-    #expired file page
-    path('expired_file_list/', views.expired_file_list, name='expired_file_list'),
-    #expired file page
-    path('to_be_renew_file_list/', views.to_be_renew_file_list, name='to_be_renew_file_list'),
     #create new file page
     path('create_new_file_form/', views.create_new_file_form, name='create_new_file_form'),
     #renew file page
     path('renew_file_form/<int:file_id>/', views.renew_file_form, name='renew_file_form'),
 
-    #api 
+    #api
     #create new file api
     path('create_new_file/', views.create_new_file, name='create_new_file'),
+
+    #get renew file list
+    path('get_renew_file_list/', views.get_renew_file_list, name='get_renew_file_list'),
+    #get expired file list
+    path('get_expired_file_list/', views.get_expired_file_list, name='get_expired_file_list'),
+    #get valid file list
+    path('get_valid_file_list/', views.get_valid_file_list, name='get_valid_file_list'),
+    #renew file api
+    path('renew_file/<int:file_id>/', views.renew_file, name='renew_file'),
 ]

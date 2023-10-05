@@ -5,15 +5,16 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/create_user.css' %}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create New File</title>
+    <title>Renew File</title>
   </head>
   <body>
     {% include 'navigation.html' %}
-    <h3>Create File</h3>
+    <h3>Renew File</h3>
     <div class="container">
       <form
+        action="{% url 'renew_file' file_id=file.id %}"
         method="post"
-        action="{% url 'create_new_file' %}"
+        user-file-id="{{file_id}}"
         enctype="multipart/form-data"
       >
         {% csrf_token %} {{ form.as_p }}
@@ -21,6 +22,5 @@
         <button class="user-submit-btn" type="submit">Submit</button>
       </form>
     </div>
-    <script src="{% static 'js/create_new_file.js' %}"></script>
   </body>
 </html>

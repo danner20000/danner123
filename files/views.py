@@ -7,10 +7,11 @@ from django.utils import timezone
 from datetime import timedelta
 from .models import File_Document
 from django.shortcuts import render, get_object_or_404
+import requests
 
 #import from form
 from .forms import create_file
-from .forms import renew_file
+from .forms import renew_form
 
 # Create your views here.
 class File_Document_view(ModelViewSet):
@@ -74,20 +75,49 @@ def create_new_file(request):
     return render(request, 'create_new_file_form.html', {'form': form})
 
 
+#renew the file 
+def renew_file(request, file_id):
+    file = get_object_or_404(File_Document, id=file_id)
+    if request.method == 'POST':
+        form = renew_form(request.POST, request.FILES) 
+        if form.is_valid():
+            file.select_BU = form.cleaned_data['select_BU']
+            file.document_type = form.cleaned_data['document_type']
+            file.department = form.cleaned_data['department']
+            file.upload_file = form.cleaned_data['upload_file']
+            file.renewal_date = form.cleaned_data['renewal_date']
+            file.expiry_date = form.cleaned_data['expiry_date']
+            file.save()
+            return redirect('dashboard')
+    else:
+        form = renew_form(initial={
+            'select_BU': file.select_BU,
+            'document_type': file.document_type,
+            'department': file.department,
+        })
+
+    context = {'form': form, 'file': file}
+    return render(request, 'renew_file_form.html', context)
 
 
 #all pages
-#display valid file pages
-def valid_file_list(request):
-    return render(request, 'valid_file_list.html')
+#get expired file list
+def get_expired_file_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/expired/')
+    expired_file = response.json()
+    return render(request, 'expired_file_list.html', {'expired_file': expired_file})
 
-#display expired file pages
-def expired_file_list(request):
-    return render(request, 'expired_file_list.html')
+#get expired file list
+def get_valid_file_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/valid_file/')
+    valid_file = response.json()
+    return render(request, 'valid_file_list.html', {'valid_file': valid_file})
 
-#display expired file pages
-def to_be_renew_file_list(request):
-    return render(request, 'to_be_renew_file_list.html')
+#get expired file list
+def get_renew_file_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/to_be_renew/')
+    renew_file = response.json()
+    return render(request, 'to_be_renew_file_list.html', {'renew_file': renew_file})
 
 #display create new file pages
 def create_new_file_form(request):
@@ -97,6 +127,11 @@ def create_new_file_form(request):
 #display renew file pages
 def renew_file_form(request, file_id):
     file = get_object_or_404(File_Document, id=file_id)
-    form = renew_file() 
+    form = renew_form(initial={
+        'select_BU': file.select_BU,
+        'document_type': file.document_type,
+        'department': file.department,
+    }) 
     context = {'form': form, 'file': file}
     return render(request, 'renew_file_form.html', context)
+
