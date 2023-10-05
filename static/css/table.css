@@ -22,3 +22,13 @@
 .custom-edit-user {
   background: linear-gradient(to bottom, #d1e8a1, #9acd32, #7ea829);
 }
+
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 5px;
+  padding: 10px; /* Added padding */
+}
+.pagination {
+  margin: 0;
+}

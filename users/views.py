@@ -10,22 +10,19 @@ from django.shortcuts import render, get_object_or_404
 from .models import User
 from rest_framework import status
 from django.core.paginator import Paginator
-from rest_framework.pagination import PageNumberPagination
+from .pagination import CustomPageNumberPagination
+
 
 #import from form
 from .forms import create_user_form
 from .forms import login 
 from .forms import update_user_form
 
-class CustomPageNumberPagination(PageNumberPagination):
-    page_size = 5  # Set the desired page size here
-    page_size_query_param = 'page_size'
-    max_page_size = 100
 
 # Create your views here.
 class Users(ModelViewSet):
     serializer_class = UserSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = CustomPageNumberPagination
 
     def get_queryset(self):
         return self.serializer_class.Meta.model.objects.all()
