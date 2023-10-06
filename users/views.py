@@ -11,7 +11,6 @@ from .models import User
 from rest_framework import status
 from .pagination import CustomPageNumberPagination
 from django.contrib.auth.decorators import login_required
-from rest_framework import permissions
 
 #import from form
 from .forms import create_user_form
@@ -23,7 +22,6 @@ from .forms import update_user_form
 class Users(ModelViewSet):
     serializer_class = UserSerializer
     pagination_class = CustomPageNumberPagination
-    permission_classes = (permissions.IsAuthenticated)
 
     def get_queryset(self):
         return self.serializer_class.Meta.model.objects.all()
@@ -61,23 +59,16 @@ def create_user(request):
 
             if password != confirm_password:
                 messages.error(request, 'Passwords do not match. Please try again.')
+                form.cleaned_data['password'] = ''
+                form.cleaned_data['confirm_password'] = ''
                 return render(request, 'create_user_form.html', {'form': form})
 
-            user_data = {
-                'first_name': first_name,
-                'last_name': last_name,
-                'email': email,
-                'password': password
-            }
-            response = requests.post('http://127.0.0.1:8000/api/users/', data=user_data)
+            user = User.objects.create_user(email=email, password=password, first_name=first_name, last_name=last_name)
 
-            if response.status_code == 201: 
-                messages.success(request, 'User Created successful!')
-                return redirect('user_list') 
-            else:
-                messages.error(request, f'Error creating user: {response.status_code}')
+            messages.success(request, 'User Created successfully!')
+            return redirect('user_list') 
         else:
-            messages.error(request, 'Invalid forms. Please check your inputs.')
+            messages.error(request, 'Invalid form. Please check your inputs.')
     else:
         form = create_user_form()
     return render(request, 'create_user_form.html', {'form': form})

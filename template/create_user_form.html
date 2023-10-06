@@ -4,14 +4,17 @@
     <meta charset="UTF-8" />
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/create_user.css' %}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify@1.11.0/dist/toastify.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create User</title>
   </head>
   <body>
     {% include 'navigation.html' %}
-    <div id="toast-container" class="toast-container"></div>
     <h3>Create User</h3>
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
     <div class="small-container">
     <form method="post" action="{% url 'create_user' %}">
       {% csrf_token %} {{ form.as_p }}
@@ -21,7 +24,5 @@
       </div>
       </div>
     </form>
-    <script src="https://cdn.jsdelivr.net/npm/toastify@1.11.0/dist/toastify.min.js"></script>
-    <script src="{% static 'js/toast.js' %}"></script>
   </body>
 </html>
