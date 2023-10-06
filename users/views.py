@@ -9,9 +9,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, get_object_or_404
 from .models import User
 from rest_framework import status
-from django.core.paginator import Paginator
 from .pagination import CustomPageNumberPagination
-
+from django.contrib.auth.decorators import login_required
+from rest_framework import permissions
 
 #import from form
 from .forms import create_user_form
@@ -23,6 +23,7 @@ from .forms import update_user_form
 class Users(ModelViewSet):
     serializer_class = UserSerializer
     pagination_class = CustomPageNumberPagination
+    permission_classes = (permissions.IsAuthenticated)
 
     def get_queryset(self):
         return self.serializer_class.Meta.model.objects.all()
@@ -43,7 +44,6 @@ class Users(ModelViewSet):
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
     
 
 #all function
@@ -112,8 +112,10 @@ def login_form(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = authenticate(email=email, password=password)
+            print(user)
             if user is not None:
                 login(request, user)
+                print(f'User authenticated: {request.user}')
                 messages.success(request, 'Login successful!')
                 return redirect('dashboard') 
             else:
@@ -126,7 +128,7 @@ def login_form(request):
 
 #all pages--------------------------------------------------------------------------------------------
 
-#redirect to login
+#redirect to login @login_required
 def redirect_to_login(request):
     return redirect('login_form')
 

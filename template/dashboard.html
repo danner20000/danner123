@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
   </head>
@@ -82,3 +81,7 @@
     </main>
   </body>
 </html>
+<!--{% if user.is_authenticated %}-->
+ <!--{% else %}
+    <p>You are not logged in. Please <a href="{% url 'login_form' %}">Go back to Login</a>.</p>
+    {% endif %} -->

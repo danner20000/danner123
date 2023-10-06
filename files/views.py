@@ -8,6 +8,7 @@ from datetime import timedelta
 from .models import File_Document
 from django.shortcuts import render, get_object_or_404
 import requests
+from django.contrib.auth.decorators import login_required
 
 #import from form
 from .forms import create_file
@@ -25,7 +26,8 @@ class File_Document_view(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
-    #get the expired file
+#get the expired file
+ 
     @action(detail=False, methods=['get'])
     def expired(self, request):
         queryset = self.get_queryset().filter(expiry_date__lt=timezone.now())
@@ -56,7 +58,6 @@ def create_new_file(request):
     if request.method == 'POST':
         form = create_file(request.POST, request.FILES)
         if form.is_valid():
-            # Assuming 'form' contains cleaned data including all fields
             file_document = File_Document(
                 user=request.user,
                 select_BU=form.cleaned_data['select_BU'],

@@ -142,3 +142,9 @@ STATICFILES_DIRS = [BASE_DIR
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
