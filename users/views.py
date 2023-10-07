@@ -14,7 +14,6 @@ from django.contrib.auth.decorators import login_required
 
 #import from form
 from .forms import create_user_form
-from .forms import login 
 from .forms import update_user_form
 
 
@@ -47,6 +46,7 @@ class Users(ModelViewSet):
 #all function
 
 #create user function -----------------------------------------------------------------------------
+@login_required
 def create_user(request):
     if request.method == 'POST':
         form = create_user_form(request.POST) 
@@ -74,12 +74,12 @@ def create_user(request):
     return render(request, 'create_user_form.html', {'form': form})
 
 #update user data -----------------------------------------------------------------------------
+@login_required
 def update_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
     if request.method == 'POST':
         form = update_user_form(request.POST)
         if form.is_valid():
-            # Update user information here
             user.first_name = form.cleaned_data['first_name']
             user.last_name = form.cleaned_data['last_name']
             user.email = form.cleaned_data['email']
@@ -95,55 +95,58 @@ def update_user(request, user_id):
     context = {'user': user, 'form': form}
     return render(request, 'update_user.html', context)
 
-#handle login form submission. ---------------------------------------------------------------------
-def login_form(request):
-    if request.method == 'POST':
-        form = login(request.POST) 
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            user = authenticate(email=email, password=password)
-            print(user)
-            if user is not None:
-                login(request, user)
-                print(f'User authenticated: {request.user}')
-                messages.success(request, 'Login successful!')
-                return redirect('dashboard') 
-            else:
-                messages.error(request, 'Invalid credentials. Please try again.')
-    else:
-        form = login()
-    return render(request, 'login.html', {'form': form})
-    
-
-
 #all pages--------------------------------------------------------------------------------------------
-
-#redirect to login @login_required
+#root
 def redirect_to_login(request):
-    return redirect('login_form')
+    return redirect('login_page')
 
-#login page ----------------------------------------------------------------------------------------
-def home(request):
-    form = login() 
-    return render(request, 'login.html', {'form': form})
+#render login page
+def login_page(request):
+    return render(request, 'login.html')
+
+#login user
+def login_user(request):
+    if request.method == "POST":
+        email = request.POST["email"]
+        password = request.POST["password"]
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            print(f'User authenticated: {user}')
+            return redirect('dashboard') 
+        else:
+            messages.error(request, 'Email or Password not found.')
+            return redirect('redirect_to_login') 
+    else:
+        return render(request, 'login.html')
+    
+#logout user
+def logout_user(request):
+    logout(request)
+    messages.success(request, 'User logout successfully.')
+    return redirect('redirect_to_login')
+
 
 #dashboard page --------------------------------------------------------------------------------
+@login_required
 def dashboard(request):
     return render(request, 'dashboard.html')
 
 #create user page -----------------------------------------------------------------------------
+@login_required
 def create_user_page(request):
     form = create_user_form() 
     return render(request, 'create_user_form.html' , {'form': form})
 
 #display user list page -----------------------------------------------------------------------
+@login_required
 def user_list(request):
     users = User.objects.all()
     context = {"users": users}
     return render(request, 'user_list.html', context)
 
 #display update user page -----------------------------------------------------------------------
+@login_required
 def update_user_page(request, user_id):
     user = get_object_or_404(User, id=user_id)
     form = update_user_form(initial={

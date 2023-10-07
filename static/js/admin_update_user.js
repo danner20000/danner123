@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     var userId = window.location.pathname.split("/").filter(Boolean).pop();
 
-    var csrftoken = $("[name=csrfmiddlewaretoken]").val(); // Get the CSRF token from the page
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val(); 
 
     $.ajax({
       type: "PATCH",
@@ -14,7 +14,7 @@ $(document).ready(function () {
       data: formData,
       dataType: "json",
       headers: {
-        "X-CSRFToken": csrftoken, // Include the CSRF token in the request headers
+        "X-CSRFToken": csrftoken,
       },
       success: function (data) {
         console.log("User updated successfully:", data);

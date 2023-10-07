@@ -9,12 +9,9 @@ $(document).ready(function () {
         "X-CSRFToken": getCookie("csrftoken"),
       },
       success: function () {
-        // Optionally, you can perform actions after successful deletion here.
-        // For example, you can remove the deleted user's row from the table.
         $(this).closest("tr").remove();
       },
       error: function () {
-        // Handle errors here
       },
     });
   });

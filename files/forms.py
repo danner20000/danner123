@@ -57,7 +57,7 @@ class renew_form(forms.Form):
         ],
         initial='Select Company',
         required=True,
-        widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;','disabled': 'disabled'})
+        widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;','readonly': 'readonly' })
     )
     document_type = forms.ChoiceField(
         choices=[
@@ -68,7 +68,7 @@ class renew_form(forms.Form):
         ],
         initial='Select Document Type',
         required=True,
-        widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;', 'disabled': 'disabled'})
+        widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;','readonly': 'readonly' })
     )
     department = forms.ChoiceField(
         choices=[
@@ -79,7 +79,7 @@ class renew_form(forms.Form):
         ],
         initial='Select Department',
         required=True,
-        widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;', 'disabled': 'disabled'})
+        widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;','readonly': 'readonly' })
     )
     upload_file = forms.FileField()
     renewal_date = forms.DateField(

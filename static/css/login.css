@@ -11,7 +11,7 @@ html {
 }
 
 .small-container {
-  max-width: 300px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f9f9f9;
@@ -29,8 +29,24 @@ html {
   color: black;
 }
 
-.form-group {
-  margin-bottom: 15px;
+.form-group label,
+.form-group input {
+  margin-bottom: 10px;
+}
+
+.form-group input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-group button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 label {

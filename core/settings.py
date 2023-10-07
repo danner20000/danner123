@@ -114,8 +114,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = 'login_form'
-LOGIN_REDIRECT_URL = 'dashboard_form'
+LOGIN_URL = 'login_page'
+LOGIN_REDIRECT_URL = 'dashboard'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
@@ -142,8 +143,6 @@ STATICFILES_DIRS = [BASE_DIR
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
-
-SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

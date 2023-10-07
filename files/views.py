@@ -52,8 +52,9 @@ class File_Document_view(ModelViewSet):
         queryset = self.get_queryset().filter(expiry_date__gte=timezone.now(), expiry_date__lte=two_months_before_expiry)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
+    
 #create new file 
+@login_required
 def create_new_file(request):
     if request.method == 'POST':
         form = create_file(request.POST, request.FILES)
@@ -77,6 +78,7 @@ def create_new_file(request):
 
 
 #renew the file 
+@login_required
 def renew_file(request, file_id):
     file = get_object_or_404(File_Document, id=file_id)
     if request.method == 'POST':
@@ -89,7 +91,10 @@ def renew_file(request, file_id):
             file.renewal_date = form.cleaned_data['renewal_date']
             file.expiry_date = form.cleaned_data['expiry_date']
             file.save()
+            print(f'Saved Data: BU={file.select_BU}, Type={file.document_type}, Department={file.department}, File={file.upload_file.name}, Renewal Date={file.renewal_date}, Expiry Date={file.expiry_date}')
             return redirect('dashboard')
+        else:
+            print(f'Form Errors: {form.errors}')
     else:
         form = renew_form(initial={
             'select_BU': file.select_BU,
@@ -121,11 +126,13 @@ def get_renew_file_list(request):
     return render(request, 'to_be_renew_file_list.html', {'renew_file': renew_file})
 
 #display create new file pages
+@login_required
 def create_new_file_form(request):
     context = {'form': create_file}
     return render(request, 'create_new_file_form.html',context)
 
 #display renew file pages
+@login_required
 def renew_file_form(request, file_id):
     file = get_object_or_404(File_Document, id=file_id)
     form = renew_form(initial={

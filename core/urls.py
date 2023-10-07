@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.views import redirect_to_login, login_form,dashboard, create_user, create_user_page, user_list, update_user, update_user_page
+from users.views import dashboard, create_user, create_user_page, user_list, update_user, update_user_page ,redirect_to_login, login_user, login_page, logout_user
 from files.views import create_new_file_form,create_new_file, renew_file_form ,get_expired_file_list, get_renew_file_list,get_valid_file_list,renew_file
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,8 +25,9 @@ urlpatterns = [
     ])),
 
     #pages
-    #Redirect Login
-    path('', redirect_to_login),
+    path('', redirect_to_login, name='root'),
+    #Display login page
+    path('login_page/', login_page, name='login_page'),
     #Display dashboard
     path('dashboard/', dashboard, name='dashboard'),
     #Display create user page
@@ -39,13 +40,14 @@ urlpatterns = [
     path('create_new_file_form/', create_new_file_form, name='create_new_file_form'),
     #renew file page
     path('renew_file_form/', renew_file_form, name='renew_file_form'),
-
+    #login page
 
 
     #functions
     #user
-    #login function
-    path('login/', login_form, name='login_form'),
+    #login user api function
+    path('login_user/', login_user, name='login_user'),
+    path('logout_user/', logout_user, name='logout_user'),
     #create user api function
     path('create_user/', create_user, name='create_user'),
     #update user api
