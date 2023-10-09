@@ -4,17 +4,24 @@
     <meta charset="UTF-8" />
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/create_user.css' %}" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create User</title>
   </head>
   <body>
-    {% include 'navigation.html' %} {% include 'alertify.html' %}
+    {% include 'navigation.html' %}
     <h3>Create User</h3>
-    <ul class="messages">
-      {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
+    {% if messages %}
+    {% for message in messages %}
+      {% if message.tags == "error"%}
+      <div class="alert alert-danger">
+        window.alert({{ message }})
+      </div>
+      {% else %}
+      <div class="alert alert-success">
+        window.alert({{ message }})
+      </div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
     <div class="small-container">
     <form method="post" action="{% url 'create_user' %}">
       {% csrf_token %} {{ form.as_p }}

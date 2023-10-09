@@ -68,7 +68,20 @@
             {% endfor %}
           </tbody>
         </table>
-        <div id="pagination"></div>
+        <div class="pagination justify-content-end">
+          <span class="step-links">
+            {% for i in users.paginator.page_range %}
+            <span class="badge bg-white border border-secondary">
+              <a
+                href="?page={{ i }}"
+                class="text-secondary"
+                style="text-decoration: none"
+                >{{ i }}</a
+              >
+            </span>
+            {% endfor %}
+          </span>
+        </div>
       </div>
     </div>
 

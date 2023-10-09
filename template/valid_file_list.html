@@ -22,7 +22,9 @@
             <th scope="col">Department</th>
             <th scope="col">Renewal Date</th>
             <th scope="col">Expiry Date</th>
+            {% if user.is_authenticated and user.is_staff %}
             <th scope="col">Assign Person</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -34,11 +36,27 @@
             <td>{{ file.department }}</td>
             <td>{{ file.renewal_date }}</td>
             <td>{{ file.expiry_date }}</td>
+            {% if user.is_authenticated and user.is_staff %}
             <td>{{ file.user}}</td>
+            {% endif %}
           </tr>
           {% endfor %}
         </tbody>
       </table>
+      <div class="pagination justify-content-end">
+        <span class="step-links">
+          {% for i in valid_file.paginator.page_range %}
+          <span class="badge bg-white border border-secondary">
+            <a
+              href="?page={{ i }}"
+              class="text-secondary"
+              style="text-decoration: none"
+              >{{ i }}</a
+            >
+          </span>
+          {% endfor %}
+        </span>
+      </div>
     </div>
     <a href="{% url 'dashboard' %}" class="btn btn-secondary float-end m-2"
       >Back</a

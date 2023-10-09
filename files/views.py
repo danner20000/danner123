@@ -9,6 +9,7 @@ from .models import File_Document
 from django.shortcuts import render, get_object_or_404
 import requests
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 #import from form
 from .forms import create_file
@@ -105,31 +106,57 @@ def renew_file(request, file_id):
     context = {'form': form, 'file': file}
     return render(request, 'renew_file_form.html', context)
 
+#permission
+def file_display_admin(request, template_name):
+    is_admin = request.user.is_authenticated and request.user.is_staff
+    return render(request, template_name, {'is_admin': is_admin})
 
 #all pages
 #get expired file list
 def get_expired_file_list(request):
     response = requests.get('http://127.0.0.1:8000/api/file/expired/')
-    expired_file = response.json()
-    return render(request, 'expired_file_list.html', {'expired_file': expired_file})
+    if response.status_code == 200:
+        expired_file = response.json()
+        paginator = Paginator(expired_file, 5)
+        page_number = request.GET.get('page')
+        expired_file = paginator.get_page(page_number)
+        return render(request, 'expired_file_list.html', {'expired_file': expired_file})
+    else:
+        return render(request, 'error_page.html')
 
 #get expired file list
 def get_valid_file_list(request):
     response = requests.get('http://127.0.0.1:8000/api/file/valid_file/')
-    valid_file = response.json()
-    return render(request, 'valid_file_list.html', {'valid_file': valid_file})
+    if response.status_code == 200:
+        valid_file = response.json()
+        paginator = Paginator(valid_file, 5)
+        page_number = request.GET.get('page')
+        valid_file = paginator.get_page(page_number)
+
+        return render(request, 'valid_file_list.html', {'valid_file': valid_file})
+    else:
+        return render(request, 'error_page.html')
+
 
 #get expired file list
 def get_renew_file_list(request):
     response = requests.get('http://127.0.0.1:8000/api/file/to_be_renew/')
-    renew_file = response.json()
-    return render(request, 'to_be_renew_file_list.html', {'renew_file': renew_file})
+    if response.status_code == 200:
+        renew_file = response.json()
+        paginator = Paginator(renew_file, 5)
+        page_number = request.GET.get('page')
+        renew_file = paginator.get_page(page_number)
+        return render(request, 'to_be_renew_file_list.html', {'renew_file': renew_file})
+    else:
+        return render(request, 'error_page.html')
 
 #display create new file pages
 @login_required
 def create_new_file_form(request):
     context = {'form': create_file}
     return render(request, 'create_new_file_form.html',context)
+
+
 
 #display renew file pages
 @login_required

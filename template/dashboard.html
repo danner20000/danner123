@@ -8,13 +8,14 @@
     <title>Dashboard</title>
   </head>
   <body >
-    {% if user.is_authenticated %}
+    {% csrf_token %}
     {% include 'navigation.html' %}
         <main class="dashboard-content">
           <div class="container mt-4 custom-container">
             <div class="row">
               <div class="col-md-10">
                 <div class="add-button">
+                  {% if not user.is_staff %}
         <div class="add-button">
           <a
             href="{% url 'create_new_file_form' %}"
@@ -25,6 +26,7 @@
             <b> Add Document</b>
           </a>
         </div>
+        {% endif %}
     </div>
       </div>
         <div class="card">
@@ -77,8 +79,5 @@
           <script src="{% static 'js/pie.js' %}"></script>
         </div>
     </main>
-    {% else %}
-    <p>You are not logged in. Please <a href="{% url 'login_form' %}">Go back to Login</a>.</p>
-    {% endif %}
   </body>
 </html>

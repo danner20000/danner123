@@ -9,18 +9,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, get_object_or_404
 from .models import User
 from rest_framework import status
-from .pagination import CustomPageNumberPagination
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator import Paginator
 #import from form
 from .forms import create_user_form
 from .forms import update_user_form
+from django.http import HttpResponse
 
 
 # Create your views here.
 class Users(ModelViewSet):
     serializer_class = UserSerializer
-    pagination_class = CustomPageNumberPagination
 
     def get_queryset(self):
         return self.serializer_class.Meta.model.objects.all()
@@ -63,15 +62,25 @@ def create_user(request):
                 form.cleaned_data['confirm_password'] = ''
                 return render(request, 'create_user_form.html', {'form': form})
 
+            # Check if the email is already in use
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'This email is already taken. Please choose a different one.')
+                form.cleaned_data['password'] = ''
+                form.cleaned_data['confirm_password'] = ''
+                return render(request, 'create_user_form.html', {'form': form})
+
             user = User.objects.create_user(email=email, password=password, first_name=first_name, last_name=last_name)
 
             messages.success(request, 'User Created successfully!')
             return redirect('user_list') 
         else:
             messages.error(request, 'Invalid form. Please check your inputs.')
+            form.cleaned_data['password'] = ''
+            form.cleaned_data['confirm_password'] = ''
     else:
         form = create_user_form()
     return render(request, 'create_user_form.html', {'form': form})
+
 
 #update user data -----------------------------------------------------------------------------
 @login_required
@@ -95,6 +104,8 @@ def update_user(request, user_id):
     context = {'user': user, 'form': form}
     return render(request, 'update_user.html', context)
 
+
+
 #all pages--------------------------------------------------------------------------------------------
 #root
 def redirect_to_login(request):
@@ -112,7 +123,6 @@ def login_user(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            print(f'User authenticated: {user}')
             return redirect('dashboard') 
         else:
             messages.error(request, 'Email or Password not found.')
@@ -141,9 +151,17 @@ def create_user_page(request):
 #display user list page -----------------------------------------------------------------------
 @login_required
 def user_list(request):
-    users = User.objects.all()
-    context = {"users": users}
-    return render(request, 'user_list.html', context)
+    if request.user.is_staff:
+        users = User.objects.all()
+        paginator = Paginator(users, 5)
+        page_number = request.GET.get('page')
+        users = paginator.get_page(page_number)
+
+        context = {"users": users}
+        return render(request, 'user_list.html', context)
+    else:
+        return HttpResponse("You do not have permission to access this page.")
+       
 
 #display update user page -----------------------------------------------------------------------
 @login_required
