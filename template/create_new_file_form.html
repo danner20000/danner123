@@ -11,53 +11,22 @@
     {% include 'navigation.html' %} {% if not user.is_staff %}
 
     <h6>Create New File</h6>
+    {% if messages %}
+    <div class="position-fixed" style="top: 0; right: 0; margin: 10px">
+      {% for message in messages %} {% if message.tags == "error" %}
+      <div class="alert alert-danger" role="alert">{{ message }}</div>
+      {% else %}
+      <div class="alert alert-success" role="alert">{{ message }}</div>
+      {% endif %} {% endfor %}
+    </div>
+    {% endif %}
     <div class="small-container">
       <form
         method="post"
         action="{% url 'create_new_file' %}"
         enctype="multipart/form-data"
       >
-        {% csrf_token %}
-
-        <div class="input-group">
-          <label for="{{ form.select_BU.id_for_label }}">Select Company:</label>
-          {{ form.select_BU }}
-        </div>
-
-        <div class="input-group">
-          <label for="{{ form.document_type.id_for_label }}"
-            >Document Type:</label
-          >
-          {{ form.document_type }}
-        </div>
-
-        <div class="input-group">
-          <label for="{{ form.department.id_for_label }}"
-            >Select Department:</label
-          >
-          {{ form.department }}
-        </div>
-
-        <div class="input-group">
-          <label for="{{ form.upload_file.id_for_label }}">Upload File:</label>
-          {{ form.upload_file }}
-        </div>
-
-        <div class="date-inputs">
-          <div class="input-group">
-            <label for="{{ form.renewal_date.id_for_label }}"
-              >Renewal Date:</label
-            >
-            {{ form.renewal_date }}
-          </div>
-
-          <div class="input-group">
-            <label for="{{ form.expiry_date.id_for_label }}"
-              >Expiry Date:</label
-            >
-            {{ form.expiry_date }}
-          </div>
-        </div>
+        {% csrf_token %} {{ form.as_p }}
 
         <div class="text-end">
           <a class="cancel-btn" href="{% url 'dashboard' %}">Cancel</a>
@@ -67,5 +36,15 @@
       {% endif %}
     </div>
     <script src="{% static 'js/create_new_file.js' %}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function () {
+          var alerts = document.querySelectorAll(".alert");
+          alerts.forEach(function (alert) {
+            alert.remove();
+          });
+        }, 3000);
+      });
+    </script>
   </body>
 </html>

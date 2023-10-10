@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from users.models import User
+from users.models import User, Company
 from django.db import transaction
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,9 +11,10 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'email',
+            'company',
             'password',
         )
-    
+        
     @transaction.atomic
     def create(self, validated_data):
         password = validated_data.pop('password')
@@ -21,3 +22,13 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+    
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = (
+            'id',
+            'company_name',
+        )
+    
+    

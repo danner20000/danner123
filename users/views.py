@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CompanySerializer
 from django.contrib import messages
 import requests
 from django.contrib.auth import authenticate, login, logout
@@ -18,6 +18,24 @@ from django.http import HttpResponse
 
 
 # Create your views here.
+class Company(ModelViewSet):
+    serializer_class = CompanySerializer
+
+    def get_queryset(self):
+        return self.serializer_class.Meta.model.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        queryset = queryset.order_by('id')
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 class Users(ModelViewSet):
     serializer_class = UserSerializer
 
@@ -53,6 +71,7 @@ def create_user(request):
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
+            company = form.cleaned_data['company']
             password = form.cleaned_data['password']
             confirm_password = form.cleaned_data['confirm_password']
 
@@ -69,10 +88,10 @@ def create_user(request):
                 form.cleaned_data['confirm_password'] = ''
                 return render(request, 'create_user_form.html', {'form': form})
 
-            user = User.objects.create_user(email=email, password=password, first_name=first_name, last_name=last_name)
+            user = User.objects.create_user(email=email, password=password, company=company, first_name=first_name, last_name=last_name)
 
             messages.success(request, 'User Created successfully!')
-            return redirect('user_list') 
+            return redirect('create_user_page') 
         else:
             messages.error(request, 'Invalid form. Please check your inputs.')
             form.cleaned_data['password'] = ''
@@ -92,6 +111,7 @@ def update_user(request, user_id):
             user.first_name = form.cleaned_data['first_name']
             user.last_name = form.cleaned_data['last_name']
             user.email = form.cleaned_data['email']
+            user.company = form.cleaned_data['company']
             user.set_password(form.cleaned_data['password'])
             user.save()
             return redirect('user_list') 
@@ -100,6 +120,7 @@ def update_user(request, user_id):
             'first_name': user.first_name,
             'last_name': user.last_name,
             'email': user.email,
+            'company': user.company,
         })
     context = {'user': user, 'form': form}
     return render(request, 'update_user.html', context)
@@ -152,8 +173,10 @@ def create_user_page(request):
 @login_required
 def user_list(request):
     if request.user.is_staff:
-        users = User.objects.all()
-        paginator = Paginator(users, 5)
+        # Exclude the admin user from the list
+        users = User.objects.filter(is_staff=False).order_by('first_name')
+        
+        paginator = Paginator(users, 5, allow_empty_first_page=True)
         page_number = request.GET.get('page')
         users = paginator.get_page(page_number)
 

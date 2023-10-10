@@ -19,8 +19,10 @@
       >
         {% csrf_token %}
         <div class="input-group">
-          <label for="{{ form.select_BU.id_for_label }}">Select Company:</label>
-          {{ form.select_BU }}
+          <label for="{{ form.department.id_for_label }}"
+            >Select Department:</label
+          >
+          {{ form.department_name }}
         </div>
 
         <div class="input-group">
@@ -28,13 +30,6 @@
             >Document Type:</label
           >
           {{ form.document_type }}
-        </div>
-
-        <div class="input-group">
-          <label for="{{ form.department.id_for_label }}"
-            >Select Department:</label
-          >
-          {{ form.department }}
         </div>
 
         <div class="input-group">

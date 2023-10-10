@@ -10,18 +10,21 @@
     {% include 'navigation.html' %}
     <h3>Create User</h3>
     {% if messages %}
+  <div class="position-fixed" style="top: 0; right: 0; margin: 10px;">
     {% for message in messages %}
-      {% if message.tags == "error"%}
-      <div class="alert alert-danger">
-        window.alert({{ message }})
-      </div>
+      {% if message.tags == "error" %}
+        <div class="alert alert-danger" role="alert">
+          {{ message }}
+        </div>
       {% else %}
-      <div class="alert alert-success">
-        window.alert({{ message }})
-      </div>
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
       {% endif %}
     {% endfor %}
-  {% endif %}
+  </div>
+{% endif %}
+
     <div class="small-container">
     <form method="post" action="{% url 'create_user' %}">
       {% csrf_token %} {{ form.as_p }}
@@ -32,4 +35,14 @@
       </div>
     </form>
   </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        var alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+          alert.remove();
+        });
+      }, 3000);
+    });
+  </script>
 </html>

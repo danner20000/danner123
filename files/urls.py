@@ -1,11 +1,12 @@
 from django.urls import path,include
 from . import views
 from .views import (
-    File_Document_view
+    File_Document_view, Department_view
 )
 
 urlpatterns = [
     path('',include([
+        #api for files
         path('', File_Document_view.as_view({
             'get': 'list',
             'post': 'create',
@@ -14,6 +15,11 @@ urlpatterns = [
             'put': 'update',
             'delete': 'destroy',
         })),
+        #api for department
+        path('department/', Department_view.as_view({'get': 'list', 'post': 'create'}), name='department-list'),
+        path('department/<int:pk>/', Department_view.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='department-detail'),
+        
+        #custom api 
         path('expired/', File_Document_view.as_view({
             'get': 'expired',  # Custom action for expired files
         })),

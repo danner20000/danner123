@@ -1,19 +1,23 @@
 $(document).ready(function () {
   $(".delete-button").click(function () {
     var userId = $(this).data("user-id");
+    var confirmation = confirm("Are you sure you want to delete this user?");
 
-    $.ajax({
-      type: "DELETE",
-      url: "/api/users/" + userId + "/",
-      headers: {
-        "X-CSRFToken": getCookie("csrftoken"),
-      },
-      success: function () {
-        $(this).closest("tr").remove();
-      },
-      error: function () {
-      },
-    });
+    if (confirmation) {
+      $.ajax({
+        type: "DELETE",
+        url: "/api/users/" + userId + "/",
+        headers: {
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        success: function () {
+          $(this).closest("tr").remove();
+        },
+        error: function () {
+          alert("Error deleting user");
+        },
+      });
+    }
   });
 
   function getCookie(name) {
