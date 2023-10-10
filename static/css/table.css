@@ -1,4 +1,3 @@
-/* Custom CSS for the container */
 .custom-container {
   background-color: #f8f9fa;
   padding: 20px;
@@ -20,4 +19,8 @@
 
 .custom-edit-user {
   background: linear-gradient(to bottom, #d1e8a1, #9acd32, #7ea829);
+}
+
+.custom-container table {
+  background-color: #f8f9fa; /* Same color as the container */
 }

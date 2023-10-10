@@ -150,6 +150,7 @@ def login_user(request):
             return redirect('redirect_to_login') 
     else:
         return render(request, 'login.html')
+
     
 #logout user
 def logout_user(request):

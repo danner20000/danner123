@@ -27,4 +27,4 @@ class File_Document(models.Model):
     expiry_date = models.DateField()
 
     def __str__(self):
-        return self.user.email
+        return self.document_type

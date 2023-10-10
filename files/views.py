@@ -75,10 +75,13 @@ def create_new_file(request):
     if request.method == 'POST':
         form = create_file(request.user.company, request.POST, request.FILES)
         if form.is_valid():
+            department_name = form.cleaned_data['department_name']
+            department = Department.objects.get(department_name=department_name)
+
             file_document = File_Document(
                 user=request.user,
-                company=request.user.company,  # Assuming this is a ForeignKey
-                department_name=form.cleaned_data['department_name'],
+                company=request.user.company,
+                department_name=department,  # Assign the Department instance, not the name
                 document_type=form.cleaned_data['document_type'],
                 upload_file=form.cleaned_data['upload_file'],
                 renewal_date=form.cleaned_data['renewal_date'],
@@ -100,10 +103,13 @@ def create_new_file(request):
 def renew_file(request, file_id):
     file = get_object_or_404(File_Document, id=file_id)
     if request.method == 'POST':
-        form = renew_form(request.user.company, request.POST, request.FILES)  # Pass company
+        form = renew_form(request.user.company, request.POST, request.FILES)
         if form.is_valid():
+            department_name = form.cleaned_data['department_name']
+            department = Department.objects.get(department_name=department_name)
+
             file.document_type = form.cleaned_data['document_type']
-            file.department_name = form.cleaned_data['department_name']  
+            file.department_name = department  # Assign the Department instance, not the name
             file.upload_file = form.cleaned_data['upload_file']
             file.renewal_date = form.cleaned_data['renewal_date']
             file.expiry_date = form.cleaned_data['expiry_date']
@@ -117,7 +123,7 @@ def renew_file(request, file_id):
     else:
         form = renew_form(request.user.company, initial={ 
             'document_type': file.document_type,
-            'department_name': file.department_name,
+            'department_name': file.department_name.department_name,  # Provide the department name
         })
 
     context = {'form': form, 'file': file}

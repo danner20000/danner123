@@ -25,6 +25,5 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_updated = models.DateTimeField(auto_now=True)
 
     def user_email(self):
-        return self.user.email
-    
+        return self.email
 
