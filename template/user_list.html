@@ -13,10 +13,27 @@
     />
     <title>User List</title>
   </head>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
 
+    th,
+    td {
+      border: 1px solid black;
+      padding: 8px;
+      background-color: #afdeeb;
+    }
+
+    th {
+      background-color: #afdeeb;
+      color: rgb(0, 0, 0);
+    }
+  </style>
   <body>
     {% include 'navigation.html' %}
-    <div class="m-2">
+    <div class="m-4">
       <a
         href="{% url 'create_user_page' %}"
         class="btn custom-add-user"
@@ -25,13 +42,13 @@
       >
     </div>
 
-    <div class="container mt-2 custom-container">
+    <div class="container mt-4 p-3 custom-container">
       {% csrf_token %}
       <div class="custom-table-container">
-        <table class="table caption-top" id="dtBasicExample">
-          <caption>
-            List of users
-          </caption>
+        <caption>
+          List of users
+        </caption>
+        <table>
           <thead>
             <tr>
               <th scope="col">No.</th>
@@ -42,7 +59,7 @@
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody class="table-group-divider">
+          <tbody>
             {% for user in users %}
             <tr>
               <td>{{ forloop.counter }}</td>
@@ -87,7 +104,7 @@
       </div>
     </div>
 
-    <a href="{% url 'dashboard' %}" class="btn btn-secondary float-end m-2"
+    <a href="{% url 'dashboard' %}" class="btn mt-2 btn-secondary float-end m-5"
       >Back</a
     >
 

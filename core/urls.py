@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.views import dashboard, create_user, create_user_page, user_list, update_user, update_user_page ,redirect_to_login, login_user, login_page, logout_user, index
+from users.views import dashboard, create_user, create_user_page, user_list, update_user, update_user_page ,redirect_to_login, login_user, login_page, logout_user
 from files.views import create_new_file_form,create_new_file, renew_file_form ,get_expired_file_list, get_renew_file_list,get_valid_file_list,renew_file
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -52,8 +52,6 @@ urlpatterns = [
     path('create_user/', create_user, name='create_user'),
     #update user api
     path('update_user/', update_user, name='update_user'),
-    #index page
-    path('index/', index, name='index'),
 
     #file
     #create file api function

@@ -200,7 +200,5 @@ def update_user_page(request, user_id):
     context = {'form': form, 'user': user} 
     return render(request, 'update_user.html', context)
 
-def index(request):
-    return render(request, 'index.html')
 
 

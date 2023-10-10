@@ -1,22 +1,28 @@
 body {
-  background-image: url("../img/login.jpg");
-  background-size: cover;
-}
-html {
-  height: 100%;
-  margin: 0;
+  height: 100vh; /* Set the body height to fill the viewport */
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0;
+  background-image: url("../img/bg-masthead.jpg");
 }
 
-.small-container {
-  max-width: 600px;
-  margin: 0 auto;
+.login-container {
+  width: 300px;
   padding: 20px;
+  background: #fff;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1), 0px 0px 0px 1px #8d8e8e,
+    inset 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
+
+.login-header {
+  font-size: x-large;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .card-header {
   text-align: center;
   margin-bottom: 20px;
