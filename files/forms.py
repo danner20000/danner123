@@ -1,6 +1,6 @@
 from django import forms
 from files.models import Department
-
+from users.models import Company
 class create_file(forms.Form):
     department_name = forms.ChoiceField(choices=[], required=True, widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'}))
     document_type = forms.ChoiceField(
@@ -25,7 +25,7 @@ class create_file(forms.Form):
         widget=forms.TextInput(attrs={'type': 'date', 'style': 'width: 100%; display: block; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'})
     )
     
-    company = forms.CharField(widget=forms.HiddenInput()) 
+    company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput())
 
     def __init__(self, company, *args, **kwargs):
         super(create_file, self).__init__(*args, **kwargs)

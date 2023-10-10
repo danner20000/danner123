@@ -22,21 +22,9 @@ class File_Document(models.Model):
         ],
         default='Select Document Type' 
     )
-
-    department = models.CharField(
-        max_length=50,
-        choices=[
-            ('department of health', 'Department of Health'),
-            ('human resource', 'Human Resource'),
-            ('registrar', 'Registrar'),
-            # Add more choices as needed
-        ],
-        default='Select Department'  
-    )
-
     upload_file = models.FileField(upload_to='save_img')
     renewal_date = models.DateField()
     expiry_date = models.DateField()
 
     def __str__(self):
-        return self.user
+        return self.user.email

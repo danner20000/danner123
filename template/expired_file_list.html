@@ -23,7 +23,7 @@
         <thead>
           <tr>
             <th scope="col">No.</th>
-            <th scope="col">Select BU</th>
+            <th scope="col">Company</th>
             <th scope="col">Document Type</th>
             <th scope="col">Department</th>
             <th scope="col">Renewal Date</th>
@@ -39,7 +39,7 @@
           {% for file in expired_file %}
           <tr>
             <td>{{ forloop.counter }}</td>
-            <td>{{ file.select_BU }}</td>
+            <td>{{ file.company }}</td>
             <td>{{ file.document_type }}</td>
             <td>{{ file.department }}</td>
             <td>{{ file.renewal_date }}</td>

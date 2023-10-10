@@ -8,7 +8,7 @@
     <title>Renew File</title>
   </head>
   <body>
-    {% include 'navigation.html' %}
+    {% include 'navigation.html' %}{% include 'toast.html' %}
     <h3>Renew File</h3>
     <div class="small-container">
       <form
@@ -17,41 +17,7 @@
         user-file-id="{{file_id}}"
         enctype="multipart/form-data"
       >
-        {% csrf_token %}
-        <div class="input-group">
-          <label for="{{ form.department.id_for_label }}"
-            >Select Department:</label
-          >
-          {{ form.department_name }}
-        </div>
-
-        <div class="input-group">
-          <label for="{{ form.document_type.id_for_label }}"
-            >Document Type:</label
-          >
-          {{ form.document_type }}
-        </div>
-
-        <div class="input-group">
-          <label for="{{ form.upload_file.id_for_label }}">Upload File:</label>
-          {{ form.upload_file }}
-        </div>
-
-        <div class="date-inputs">
-          <div class="input-group">
-            <label for="{{ form.renewal_date.id_for_label }}"
-              >Renewal Date:</label
-            >
-            {{ form.renewal_date }}
-          </div>
-
-          <div class="input-group">
-            <label for="{{ form.expiry_date.id_for_label }}"
-              >Expiry Date:</label
-            >
-            {{ form.expiry_date }}
-          </div>
-        </div>
+        {% csrf_token %} {{ form.as_p }}
         <div class="text-end">
           <a class="cancel-btn" href="{% url 'dashboard' %}">Cancel</a>
           <button class="user-submit-btn" type="submit">Submit</button>

@@ -5,7 +5,7 @@ from .models import File_Document , Department
 @admin.register(File_Document)
 class File_Document_Admin(admin.ModelAdmin):
     search_fields = ('id', 'email',)
-    list_display = ('id','department','document_type','renewal_date', 'expiry_date')
+    list_display = ('id','department_name','document_type','renewal_date', 'expiry_date')
 
 @admin.register(Department)
 class Department_Admin(admin.ModelAdmin):

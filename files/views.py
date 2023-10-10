@@ -77,8 +77,8 @@ def create_new_file(request):
         if form.is_valid():
             file_document = File_Document(
                 user=request.user,
-                company=request.user.company,
-                department=form.cleaned_data['department_name'],
+                company=request.user.company,  # Assuming this is a ForeignKey
+                department_name=form.cleaned_data['department_name'],
                 document_type=form.cleaned_data['document_type'],
                 upload_file=form.cleaned_data['upload_file'],
                 renewal_date=form.cleaned_data['renewal_date'],
@@ -103,7 +103,7 @@ def renew_file(request, file_id):
         form = renew_form(request.user.company, request.POST, request.FILES)  # Pass company
         if form.is_valid():
             file.document_type = form.cleaned_data['document_type']
-            file.department = form.cleaned_data['department_name']  
+            file.department_name = form.cleaned_data['department_name']  
             file.upload_file = form.cleaned_data['upload_file']
             file.renewal_date = form.cleaned_data['renewal_date']
             file.expiry_date = form.cleaned_data['expiry_date']
