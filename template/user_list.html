@@ -15,13 +15,7 @@
   </head>
   <body>
     {% include 'navigation.html' %}
-    <div
-      class="m-4"
-      style="
-        background-color: #f8f9fa;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      "
-    >
+    <div class="m-4">
       <a
         href="{% url 'create_user_page' %}"
         class="btn custom-add-user"
@@ -36,7 +30,7 @@
         <caption>
           List of users
         </caption>
-        <table class="table">
+        <table class="table table-sm">
           <thead>
             <tr>
               <th scope="col">No.</th>

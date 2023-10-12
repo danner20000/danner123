@@ -1,7 +1,9 @@
 .custom-container {
   background-color: #ffffff !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1) !important;
   border-radius: 10px;
+  border-style: solid;
+  border-color: #eeecec;
 }
 
 .custom-delete-btn {

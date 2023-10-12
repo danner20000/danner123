@@ -42,11 +42,15 @@ class File_Document_view(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
-#get the expired file
- 
+#get the expired file    
     @action(detail=False, methods=['get'])
     def expired(self, request):
-        queryset = self.get_queryset().filter(expiry_date__lt=timezone.now())
+        user = request.user
+        if user.is_staff:
+            queryset = self.get_queryset().filter(expiry_date__lt=timezone.now())
+        else:
+            user_email = user.email
+            queryset = self.get_queryset().filter(expiry_date__lt=timezone.now(), user__email=user_email)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
@@ -68,7 +72,139 @@ class File_Document_view(ModelViewSet):
         queryset = self.get_queryset().filter(expiry_date__gte=timezone.now(), expiry_date__lte=two_months_before_expiry)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+#admin api
+
+    #get the expired file    
+    @action(detail=False, methods=['get'])
+    def admin_expired(self, request):
+        queryset = self.get_queryset().filter(expiry_date__lt=timezone.now())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
     
+#get the valid file
+    @action(detail=False, methods=['get'])
+    def admin_valid_file(self, request):
+        expiration_threshold = timezone.now() + timedelta(days=60)
+        queryset = self.get_queryset().filter(
+            expiry_date__gte=expiration_threshold
+        )
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+#get the file to be renew
+    @action(detail=False, methods=['get'])
+    def admin_to_be_renew(self, request):
+        two_months_before_expiry = timezone.now() + timedelta(days=60)
+        queryset = self.get_queryset().filter(expiry_date__gte=timezone.now(), expiry_date__lte=two_months_before_expiry)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+#all pages
+#get expired file list
+def get_expired_file_list(request):
+    user_email = request.user.email
+    response = requests.get('http://127.0.0.1:8000/api/file/expired/', params={'user_email': user_email})
+    if response.status_code == 200:
+        expired_file = response.json()
+        paginator = Paginator(expired_file, 5)
+        page_number = request.GET.get('page')
+        expired_file = paginator.get_page(page_number)
+        return render(request, 'expired_file_list.html', {'expired_file': expired_file})
+    else:
+        error_message = f"Error fetching expired files. Status code: {response.status_code}"
+        return render(request, 'error_page.html', {'error_message': error_message})
+
+#get expired file list
+def get_valid_file_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/valid_file/')
+    if response.status_code == 200:
+        valid_file = response.json()
+        paginator = Paginator(valid_file, 5)
+        page_number = request.GET.get('page')
+        valid_file = paginator.get_page(page_number)
+
+        return render(request, 'valid_file_list.html', {'valid_file': valid_file})
+    else:
+        return render(request, 'error_page.html')
+
+
+#get expired file list
+def get_renew_file_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/to_be_renew/')
+    if response.status_code == 200:
+        renew_file = response.json()
+        paginator = Paginator(renew_file, 5)
+        page_number = request.GET.get('page')
+        renew_file = paginator.get_page(page_number)
+        return render(request, 'to_be_renew_file_list.html', {'renew_file': renew_file})
+    else:
+        return render(request, 'error_page.html')
+
+#admin file
+#get expired file list
+def admin_expired_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/admin_expired/')
+    if response.status_code == 200:
+        admin_expired_file = response.json()
+        paginator = Paginator(admin_expired_file, 5)
+        page_number = request.GET.get('page')
+        admin_expired_file = paginator.get_page(page_number)
+        return render(request, 'admin_expired_file.html', {'admin_expired_file': admin_expired_file})
+    else:
+        error_message = f"Error fetching expired files. Status code: {response.status_code}"
+        return render(request, 'error_page.html', {'error_message': error_message})
+
+#get expired file list
+def admin_valid_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/admin_valid_file/')
+    if response.status_code == 200:
+        admin_valid_file = response.json()
+        paginator = Paginator(admin_valid_file, 5)
+        page_number = request.GET.get('page')
+        admin_valid_file = paginator.get_page(page_number)
+
+        return render(request, 'admin_valid_file.html', {'admin_valid_file': admin_valid_file})
+    else:
+        return render(request, 'error_page.html')
+
+
+#get expired file list
+def admin_renew_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/admin_to_be_renew/')
+    if response.status_code == 200:
+        admin_renew_file = response.json()
+        paginator = Paginator(admin_renew_file, 5)
+        page_number = request.GET.get('page')
+        admin_renew_file = paginator.get_page(page_number)
+        return render(request, 'admin_renew_file.html', {'admin_renew_file': admin_renew_file})
+    else:
+        return render(request, 'error_page.html')
+
+
+
+#display create new file pages
+@login_required
+def create_new_file_form(request):
+    context = {'form': create_file(request.user.company)}
+    return render(request, 'create_new_file_form.html', context)
+
+
+#display renew file pages
+@login_required
+def renew_file_form(request, file_id):
+    file = get_object_or_404(File_Document, id=file_id)
+    form = renew_form(company=request.user.company, initial={
+        'document_type': file.document_type,
+        'department': file.department_name,
+    }) 
+    context = {'form': form, 'file': file}
+    return render(request, 'renew_file_form.html', context)
+
+
+   
+#function
 #create new file 
 @login_required
 def create_new_file(request):
@@ -109,7 +245,7 @@ def renew_file(request, file_id):
             department = Department.objects.get(department_name=department_name)
 
             file.document_type = form.cleaned_data['document_type']
-            file.department_name = department  # Assign the Department instance, not the name
+            file.department_name = department  
             file.upload_file = form.cleaned_data['upload_file']
             file.renewal_date = form.cleaned_data['renewal_date']
             file.expiry_date = form.cleaned_data['expiry_date']
@@ -128,64 +264,4 @@ def renew_file(request, file_id):
 
     context = {'form': form, 'file': file}
     return render(request, 'renew_file_form.html', context)
-
-
-
-#all pages
-#get expired file list
-def get_expired_file_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/expired/')
-    if response.status_code == 200:
-        expired_file = response.json()
-        paginator = Paginator(expired_file, 5)
-        page_number = request.GET.get('page')
-        expired_file = paginator.get_page(page_number)
-        return render(request, 'expired_file_list.html', {'expired_file': expired_file})
-    else:
-        return render(request, 'error_page.html')
-
-#get expired file list
-def get_valid_file_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/valid_file/')
-    if response.status_code == 200:
-        valid_file = response.json()
-        paginator = Paginator(valid_file, 5)
-        page_number = request.GET.get('page')
-        valid_file = paginator.get_page(page_number)
-
-        return render(request, 'valid_file_list.html', {'valid_file': valid_file})
-    else:
-        return render(request, 'error_page.html')
-
-
-#get expired file list
-def get_renew_file_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/to_be_renew/')
-    if response.status_code == 200:
-        renew_file = response.json()
-        paginator = Paginator(renew_file, 5)
-        page_number = request.GET.get('page')
-        renew_file = paginator.get_page(page_number)
-        return render(request, 'to_be_renew_file_list.html', {'renew_file': renew_file})
-    else:
-        return render(request, 'error_page.html')
-
-#display create new file pages
-@login_required
-def create_new_file_form(request):
-    context = {'form': create_file(request.user.company)}
-    return render(request, 'create_new_file_form.html', context)
-
-
-#display renew file pages
-@login_required
-def renew_file_form(request, file_id):
-    file = get_object_or_404(File_Document, id=file_id)
-    form = renew_form(company=request.user.company, initial={
-        'document_type': file.document_type,
-        'department': file.department_name,
-    }) 
-    context = {'form': form, 'file': file}
-    return render(request, 'renew_file_form.html', context)
-
 

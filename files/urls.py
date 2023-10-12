@@ -47,4 +47,12 @@ urlpatterns = [
     path('get_valid_file_list/', views.get_valid_file_list, name='get_valid_file_list'),
     #renew file api
     path('renew_file/<int:file_id>/', views.renew_file, name='renew_file'),
+
+    #admin
+     #get renew file list
+    path('admin_renew_list/', views.admin_renew_list, name='admin_renew_list'),
+    #get expired file list
+    path('admin_expired_list/', views.admin_expired_list, name='admin_expired_list'),
+    #get valid file list
+    path('admin_valid_list/', views.admin_valid_list, name='admin_valid_list'),
 ]
