@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users.views import dashboard, create_user, create_user_page, user_list, update_user, update_user_page ,redirect_to_login, login_user, login_page, logout_user
-from files.views import create_new_file_form,create_new_file, renew_file_form ,get_expired_file_list, get_renew_file_list,get_valid_file_list,renew_file ,admin_expired, admin_valid, admin_to_be_renew
+from files.views import create_new_file_form,create_new_file, renew_file_form ,get_expired_file_list, get_renew_file_list,get_valid_file_list,renew_file ,display_admin_expired, display_admin_valid, display_admin_to_be_renew
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include([
@@ -43,9 +43,9 @@ urlpatterns = [
     #login page
 
     #render admin dashboard
-    path('admin_expired/', admin_expired, name='admin_expired'),
-    path('admin_valid/', admin_valid, name='admin_valid'),
-    path('admin_to_be_renew/', admin_to_be_renew, name='admin_to_be_renew'),
+    path('admin_expired/', display_admin_expired, name='admin_expired'),
+    path('admin_valid/', display_admin_valid, name='admin_valid'),
+    path('admin_to_be_renew/', display_admin_to_be_renew, name='admin_to_be_renew'),
 
 
     #functions

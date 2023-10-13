@@ -141,7 +141,37 @@ def get_renew_file_list(request):
     else:
         return render(request, 'error_page.html')
 
+#Admin
+#get expired file list
+def admin_expired_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/expired/')
+    if response.status_code == 200:
+        admin_expired_file = response.json()
+        return render(request, 'expired_file_list.html', {'admin_expired_file': admin_expired_file})
+    else:
+        error_message = f"Error fetching expired files. Status code: {response.status_code}"
+        return render(request, 'error_page.html', {'error_message': error_message})
 
+#get expired file list
+def admin_valid_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/valid_file/')
+    if response.status_code == 200:
+        admin_valid_file = response.json()
+        return render(request, 'valid_file_list.html', {'admin_valid_file': admin_valid_file})
+    else:
+        error_message = f"Error fetching expired files. Status code: {response.status_code}"
+        return render(request, 'error_page.html', {'error_message': error_message})
+
+
+#get expired file list
+def admin_renew_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/to_be_renew/')
+    if response.status_code == 200:
+        admin_renew_file = response.json()
+        return render(request, 'to_be_renew_file_list.html', {'admin_renew_file': admin_renew_file})
+    else:
+        error_message = f"Error fetching expired files. Status code: {response.status_code}"
+        return render(request, 'error_page.html', {'error_message': error_message})
    
 #function
 #create new file 
@@ -224,11 +254,11 @@ def renew_file_form(request, file_id):
     return render(request, 'renew_file_form.html', context)
 
 #admin dashboard page
-def admin_expired(request):
+def display_admin_expired(request):
     return render(request, 'admin_expired_file.html')
 
-def admin_valid(request):
+def display_admin_valid(request):
     return render(request, 'admin_valid_file.html')
 
-def admin_to_be_renew(request):
+def display_admin_to_be_renew(request):
     return render(request, 'admin_renew_File.html')

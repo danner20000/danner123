@@ -47,9 +47,9 @@ urlpatterns = [
     path('renew_file_form/<int:file_id>/', views.renew_file_form, name='renew_file_form'),
 
     #render admin dashboard
-    path('admin_expired/', views.admin_expired, name='admin_expired'),
-    path('admin_valid/', views.admin_valid, name='admin_valid'),
-    path('admin_to_be_renew/', views.admin_to_be_renew, name='admin_to_be_renew'),
+    path('admin_expired/', views.display_admin_expired, name='admin_expired'),
+    path('admin_valid/', views.display_admin_valid, name='admin_valid'),
+    path('admin_to_be_renew/', views.display_admin_to_be_renew, name='admin_to_be_renew'),
 
 
     #api
