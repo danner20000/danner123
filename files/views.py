@@ -42,11 +42,10 @@ class File_Document_view(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
-#get the expired file    
+#get the expired file  
     @action(detail=False, methods=['get'])
     def expired(self, request):
-        user_email = request.user
-        queryset = self.get_queryset().filter(expiry_date__lt=timezone.now(), user__email=user_email)
+        queryset = self.get_queryset().filter(expiry_date__lt=timezone.now())
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
@@ -70,7 +69,7 @@ class File_Document_view(ModelViewSet):
         return Response(serializer.data)
 
 #admin api
-    #get the expired file    
+    #get the expired file
     @action(detail=False, methods=['get'])
     def admin_expired_list(self, request):
         queryset = self.get_queryset().filter(expiry_date__lt=timezone.now())

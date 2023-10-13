@@ -41,7 +41,7 @@ class Users(ModelViewSet):
 
     def get_queryset(self):
         return self.serializer_class.Meta.model.objects.all()
-
+    @login_required
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         queryset = queryset.order_by('id')
@@ -53,7 +53,8 @@ class Users(ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-    
+
+    @login_required
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
@@ -144,6 +145,7 @@ def login_user(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
+            request.session['authenticated'] = True
             return redirect('dashboard') 
         else:
             messages.error(request, 'Email or Password not found.')
@@ -153,6 +155,7 @@ def login_user(request):
 
     
 #logout user
+@login_required
 def logout_user(request):
     logout(request)
     messages.success(request, 'User logout successfully.')
@@ -163,6 +166,11 @@ def logout_user(request):
 @login_required
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+#user profile
+@login_required
+def user_profile(request):
+    return render(request, 'file_profile.html')
 
 #create user page -----------------------------------------------------------------------------
 @login_required
