@@ -19,7 +19,7 @@ urlpatterns = [
         path('department/', Department_view.as_view({'get': 'list', 'post': 'create'}), name='department-list'),
         path('department/<int:pk>/', Department_view.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='department-detail'),
         
-        #custom api 
+        #custom api for user
         path('expired/', File_Document_view.as_view({
             'get': 'expired',  # Custom action for expired files
         })),
@@ -29,18 +29,35 @@ urlpatterns = [
         path('to_be_renew/', File_Document_view.as_view({
             'get': 'to_be_renew',  # Custom action for files to be renewed
         })),  
+
+        #custom api for admin
+        path('expired_documents/', File_Document_view.as_view({
+            'get': 'admin_expired',  # Custom action for expired files
+        })),
+        path('valid_documents/', File_Document_view.as_view({
+            'get': 'admin_valid_file',  # Custom action for valid files
+        })),
+        path('due_for_renewal_documents/', File_Document_view.as_view({
+            'get': 'admin_to_be_renew',  # Custom action for files to be renewed
+        })), 
     ])),
     #create new file page
     path('create_new_file_form/', views.create_new_file_form, name='create_new_file_form'),
     #renew file page
     path('renew_file_form/<int:file_id>/', views.renew_file_form, name='renew_file_form'),
 
+    #render admin dashboard
+    path('admin_expired/', views.admin_expired, name='admin_expired'),
+    path('admin_valid/', views.admin_valid, name='admin_valid'),
+    path('admin_to_be_renew/', views.admin_to_be_renew, name='admin_to_be_renew'),
+
+
     #api
     #create new file api
     path('create_new_file/', views.create_new_file, name='create_new_file'),
-
     #get renew file list
     path('get_renew_file_list/', views.get_renew_file_list, name='get_renew_file_list'),
+
     #get expired file list
     path('get_expired_file_list/', views.get_expired_file_list, name='get_expired_file_list'),
     #get valid file list
@@ -48,11 +65,4 @@ urlpatterns = [
     #renew file api
     path('renew_file/<int:file_id>/', views.renew_file, name='renew_file'),
 
-    #admin
-     #get renew file list
-    path('admin_renew_list/', views.admin_renew_list, name='admin_renew_list'),
-    #get expired file list
-    path('admin_expired_list/', views.admin_expired_list, name='admin_expired_list'),
-    #get valid file list
-    path('admin_valid_list/', views.admin_valid_list, name='admin_valid_list'),
 ]

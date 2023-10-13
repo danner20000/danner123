@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users.views import dashboard, create_user, create_user_page, user_list, update_user, update_user_page ,redirect_to_login, login_user, login_page, logout_user
-from files.views import create_new_file_form,create_new_file, renew_file_form ,get_expired_file_list, get_renew_file_list,get_valid_file_list,renew_file ,admin_renew_list,admin_expired_list,  admin_valid_list
+from files.views import create_new_file_form,create_new_file, renew_file_form ,get_expired_file_list, get_renew_file_list,get_valid_file_list,renew_file ,admin_expired, admin_valid, admin_to_be_renew
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include([
@@ -42,6 +42,11 @@ urlpatterns = [
     path('renew_file_form/', renew_file_form, name='renew_file_form'),
     #login page
 
+    #render admin dashboard
+    path('admin_expired/', admin_expired, name='admin_expired'),
+    path('admin_valid/', admin_valid, name='admin_valid'),
+    path('admin_to_be_renew/', admin_to_be_renew, name='admin_to_be_renew'),
+
 
     #functions
     #user
@@ -66,12 +71,4 @@ urlpatterns = [
     #renew document api
     path('renew_file/', renew_file, name='renew_file'),
 
-
-    #admin
-    #get renew file list
-    path('admin_renew_list/', admin_renew_list, name='admin_renew_list'),
-    #get expired file list
-    path('admin_expired_list/', admin_expired_list, name='admin_expired_list'),
-    #get valid file list
-    path('admin_valid_list/', admin_valid_list, name='admin_valid_list'),
 ]

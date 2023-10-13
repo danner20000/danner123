@@ -74,7 +74,6 @@ class File_Document_view(ModelViewSet):
         return Response(serializer.data)
 
 #admin api
-
     #get the expired file    
     @action(detail=False, methods=['get'])
     def admin_expired(self, request):
@@ -142,66 +141,6 @@ def get_renew_file_list(request):
     else:
         return render(request, 'error_page.html')
 
-#admin file
-#get expired file list
-def admin_expired_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/admin_expired/')
-    if response.status_code == 200:
-        admin_expired_file = response.json()
-        paginator = Paginator(admin_expired_file, 5)
-        page_number = request.GET.get('page')
-        admin_expired_file = paginator.get_page(page_number)
-        return render(request, 'admin_expired_file.html', {'admin_expired_file': admin_expired_file})
-    else:
-        error_message = f"Error fetching expired files. Status code: {response.status_code}"
-        return render(request, 'error_page.html', {'error_message': error_message})
-
-#get expired file list
-def admin_valid_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/admin_valid_file/')
-    if response.status_code == 200:
-        admin_valid_file = response.json()
-        paginator = Paginator(admin_valid_file, 5)
-        page_number = request.GET.get('page')
-        admin_valid_file = paginator.get_page(page_number)
-
-        return render(request, 'admin_valid_file.html', {'admin_valid_file': admin_valid_file})
-    else:
-        return render(request, 'error_page.html')
-
-
-#get expired file list
-def admin_renew_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/admin_to_be_renew/')
-    if response.status_code == 200:
-        admin_renew_file = response.json()
-        paginator = Paginator(admin_renew_file, 5)
-        page_number = request.GET.get('page')
-        admin_renew_file = paginator.get_page(page_number)
-        return render(request, 'admin_renew_file.html', {'admin_renew_file': admin_renew_file})
-    else:
-        return render(request, 'error_page.html')
-
-
-
-#display create new file pages
-@login_required
-def create_new_file_form(request):
-    context = {'form': create_file(request.user.company)}
-    return render(request, 'create_new_file_form.html', context)
-
-
-#display renew file pages
-@login_required
-def renew_file_form(request, file_id):
-    file = get_object_or_404(File_Document, id=file_id)
-    form = renew_form(company=request.user.company, initial={
-        'document_type': file.document_type,
-        'department': file.department_name,
-    }) 
-    context = {'form': form, 'file': file}
-    return render(request, 'renew_file_form.html', context)
-
 
    
 #function
@@ -265,3 +204,31 @@ def renew_file(request, file_id):
     context = {'form': form, 'file': file}
     return render(request, 'renew_file_form.html', context)
 
+
+#display create new file pages
+@login_required
+def create_new_file_form(request):
+    context = {'form': create_file(request.user.company)}
+    return render(request, 'create_new_file_form.html', context)
+
+
+#display renew file pages
+@login_required
+def renew_file_form(request, file_id):
+    file = get_object_or_404(File_Document, id=file_id)
+    form = renew_form(company=request.user.company, initial={
+        'document_type': file.document_type,
+        'department': file.department_name,
+    }) 
+    context = {'form': form, 'file': file}
+    return render(request, 'renew_file_form.html', context)
+
+#admin dashboard page
+def admin_expired(request):
+    return render(request, 'admin_expired_file.html')
+
+def admin_valid(request):
+    return render(request, 'admin_valid_file.html')
+
+def admin_to_be_renew(request):
+    return render(request, 'admin_renew_File.html')
