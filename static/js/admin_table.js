@@ -2,27 +2,94 @@ document.addEventListener("DOMContentLoaded", function () {
   fetch("/api/file/expired_documents/")
     .then((response) => response.json())
     .then((data) => {
-      const table = document.getElementById("expired");
+      const table = $("#expired").DataTable({
+        lengthMenu: [5, 10, 25, 50, 75, 100],
+        searching: true,
+      });
+
+      table.clear().draw();
+
       data.forEach((item, index) => {
-        const row = document.createElement("tr");
         const cells = [
           "company_name",
-          "department_name ",
+          "department_name",
           "document_type",
           "renewal_date",
           "expiry_date",
-          "user_email",
+          "user_fullname",
         ];
-        cells.forEach((key) => {
-          const cell = document.createElement("td");
-          cell.innerText = item[key];
-          row.appendChild(cell);
-        });
+        const rowData = cells.map((key) =>
+          key === "user_fullname"
+            ? `${item.user_firstname} ${item.user_lastname}`
+            : item[key]
+        );
 
-        const indexCell = document.createElement("td");
-        indexCell.innerText = index + 1;
-        row.appendChild(indexCell);
-        table.querySelector("tbody").appendChild(row);
+        // Add a row to the table
+        table.row.add([index + 1, ...rowData]).draw();
+      });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("/api/file/renewal_documents/")
+    .then((response) => response.json())
+    .then((data) => {
+      const table = $("#renew").DataTable({
+        lengthMenu: [5, 10, 25, 50, 75, 100],
+        searching: true,
+      });
+
+      table.clear().draw();
+
+      data.forEach((item, index) => {
+        const cells = [
+          "company_name",
+          "department_name",
+          "document_type",
+          "renewal_date",
+          "expiry_date",
+          "user_fullname",
+        ];
+        const rowData = cells.map((key) =>
+          key === "user_fullname"
+            ? `${item.user_firstname} ${item.user_lastname}`
+            : item[key]
+        );
+
+        // Add a row to the table
+        table.row.add([index + 1, ...rowData]).draw();
+      });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("/api/file/valid_documents/")
+    .then((response) => response.json())
+    .then((data) => {
+      const table = $("#valid").DataTable({
+        lengthMenu: [5, 10, 25, 50, 75, 100],
+        searching: true,
+      });
+
+      table.clear().draw();
+
+      data.forEach((item, index) => {
+        const cells = [
+          "company_name",
+          "department_name",
+          "document_type",
+          "renewal_date",
+          "expiry_date",
+          "user_fullname",
+        ];
+        const rowData = cells.map((key) =>
+          key === "user_fullname"
+            ? `${item.user_firstname} ${item.user_lastname}`
+            : item[key]
+        );
+
+        // Add a row to the table
+        table.row.add([index + 1, ...rowData]).draw();
       });
     });
 });

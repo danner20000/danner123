@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
@@ -11,55 +12,42 @@
       rel="stylesheet"
       href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"
     />
-    <title>Valid Documents</title>
+    <title>Expired Documents</title>
+    <style>
+      .custom-container {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-top: 50px;
+        padding: 20px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      }
+    </style>
   </head>
-  <style>
-    .custom-table {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
 
-    .custom-table th,
-    .custom-table td {
-      padding: 8px 12px;
-    }
-  </style>
   <body>
-    <div class="container mt-5">
-      <table id="example" class="table" style="width: 100%">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for file in admin_valid_file %}
-          <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ file.company_name }}</td>
-            <td>{{ file.department_name }}</td>
-            <td>{{ file.document_type }}</td>
-            <td>{{ file.renewal_date }}</td>
-            <td>{{ file.expiry_date }}</td>
-            <td>{{ file.user_email}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="container mt-5 custom-container">
+      <div class="row justify-content-center">
+        <div class="col-m-2">
+          <table id="valid" class="table custom-table">
+            <thead class="bg-primary text-white">
+              <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Company</th>
+                <th scope="col">Department</th>
+                <th scope="col">Document Type</th>
+                <th scope="col">Renewal Date</th>
+                <th scope="col">Expiry Date</th>
+                <th scope="col">Uploaded By</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
     </div>
+    <script src="{% static 'js/admin_table.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
   </body>
 </html>
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-<script>
-  $(document).ready(function () {
-    $("#example").DataTable();
-  });
-</script>

@@ -2,7 +2,7 @@ async function generatePieChart() {
   const validFileCount = await fetchFileCount("/api/file/valid_documents/");
   const expiredFileCount = await fetchFileCount("/api/file/expired_documents/");
   const toBeRenewedFileCount = await fetchFileCount(
-    "api/file/due_for_renewal_documents/"
+    "/api/file/renewal_documents/"
   );
 
   const data = {
