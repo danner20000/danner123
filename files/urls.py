@@ -32,13 +32,13 @@ urlpatterns = [
 
         #custom api for admin
         path('expired_documents/', File_Document_view.as_view({
-            'get': 'admin_expired',  # Custom action for expired files
+            'get': 'admin_expired_list',  # Custom action for expired files
         })),
         path('valid_documents/', File_Document_view.as_view({
-            'get': 'admin_valid_file',  # Custom action for valid files
+            'get': 'admin_valid_list',  # Custom action for valid files
         })),
         path('due_for_renewal_documents/', File_Document_view.as_view({
-            'get': 'admin_to_be_renew',  # Custom action for files to be renewed
+            'get': 'admin_to_be_renew_list',  # Custom action for files to be renewed
         })), 
     ])),
     #create new file page
@@ -64,5 +64,13 @@ urlpatterns = [
     path('get_valid_file_list/', views.get_valid_file_list, name='get_valid_file_list'),
     #renew file api
     path('renew_file/<int:file_id>/', views.renew_file, name='renew_file'),
+
+    #admin side
+    #get expired file list
+    path('admin_get_expired_list/', views.admin_get_expired_list, name='admin_get_expired_list'),
+    #get valid file list
+    path('admin_get_valid_list/', views.admin_get_valid_list, name='admin_get_expired_list'),
+    #renew file api
+    path('admin_get_renew_list/', views.admin_get_renew_list, name='admin_get_expired_list'),
 
 ]

@@ -76,14 +76,14 @@ class File_Document_view(ModelViewSet):
 #admin api
     #get the expired file    
     @action(detail=False, methods=['get'])
-    def admin_expired(self, request):
+    def admin_expired_list(self, request):
         queryset = self.get_queryset().filter(expiry_date__lt=timezone.now())
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
 #get the valid file
     @action(detail=False, methods=['get'])
-    def admin_valid_file(self, request):
+    def admin_valid_list(self, request):
         expiration_threshold = timezone.now() + timedelta(days=60)
         queryset = self.get_queryset().filter(
             expiry_date__gte=expiration_threshold
@@ -93,7 +93,7 @@ class File_Document_view(ModelViewSet):
     
 #get the file to be renew
     @action(detail=False, methods=['get'])
-    def admin_to_be_renew(self, request):
+    def admin_to_be_renew_list(self, request):
         two_months_before_expiry = timezone.now() + timedelta(days=60)
         queryset = self.get_queryset().filter(expiry_date__gte=timezone.now(), expiry_date__lte=two_months_before_expiry)
         serializer = self.get_serializer(queryset, many=True)
@@ -143,32 +143,32 @@ def get_renew_file_list(request):
 
 #Admin
 #get expired file list
-def admin_expired_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/expired/')
+def admin_get_expired_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/expired_documents/')
     if response.status_code == 200:
         admin_expired_file = response.json()
-        return render(request, 'expired_file_list.html', {'admin_expired_file': admin_expired_file})
+        return render(request, 'admin_expired_file.html', {'admin_expired_file': admin_expired_file})
     else:
         error_message = f"Error fetching expired files. Status code: {response.status_code}"
         return render(request, 'error_page.html', {'error_message': error_message})
 
 #get expired file list
-def admin_valid_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/valid_file/')
+def admin_get_valid_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/valid_documents/')
     if response.status_code == 200:
         admin_valid_file = response.json()
-        return render(request, 'valid_file_list.html', {'admin_valid_file': admin_valid_file})
+        return render(request, 'admin_valid_file.html', {'admin_valid_file': admin_valid_file})
     else:
         error_message = f"Error fetching expired files. Status code: {response.status_code}"
         return render(request, 'error_page.html', {'error_message': error_message})
 
 
 #get expired file list
-def admin_renew_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/to_be_renew/')
+def admin_get_renew_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/file/due_for_renewal_documents/')
     if response.status_code == 200:
         admin_renew_file = response.json()
-        return render(request, 'to_be_renew_file_list.html', {'admin_renew_file': admin_renew_file})
+        return render(request, 'admin_renew_file.html', {'admin_renew_file': admin_renew_file})
     else:
         error_message = f"Error fetching expired files. Status code: {response.status_code}"
         return render(request, 'error_page.html', {'error_message': error_message})
@@ -261,4 +261,4 @@ def display_admin_valid(request):
     return render(request, 'admin_valid_file.html')
 
 def display_admin_to_be_renew(request):
-    return render(request, 'admin_renew_File.html')
+    return render(request, 'admin_renew_file.html')

@@ -40,7 +40,19 @@
             <th scope="col">Uploaded By</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          {% for file in admin_expired %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ file.company_name }}</td>
+            <td>{{ file.department_name }}</td>
+            <td>{{ file.document_type }}</td>
+            <td>{{ file.renewal_date }}</td>
+            <td>{{ file.expiry_date }}</td>
+            <td>{{ file.user_email}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
       </table>
     </div>
   </body>
