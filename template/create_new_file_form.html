@@ -8,7 +8,8 @@
     <title>Create New File</title>
   </head>
   <body>
-    {% include 'navigation.html' %} {% if not user.is_staff %}
+    {% include 'navigation.html' %} {% include 'toast.html' %} {% if not
+    user.is_staff %}
 
     <h6>Create New File</h6>
     {% if messages %}
@@ -35,7 +36,6 @@
       </form>
       {% endif %}
     </div>
-    <script src="{% static 'js/create_new_file.js' %}"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         setTimeout(function () {

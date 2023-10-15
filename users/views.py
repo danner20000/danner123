@@ -14,6 +14,7 @@ from django.core.paginator import Paginator
 #import from form
 from .forms import create_user_form
 from .forms import update_user_form
+from .forms import company_form
 from django.http import HttpResponse
 
 
@@ -145,7 +146,7 @@ def login_user(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            return redirect('dashboard')  # Assuming you have a named URL for the dashboard
+            return redirect('dashboard')
         else:
             messages.error(request, 'Email or Password not found.')
     return render(request, 'login.html')
@@ -175,6 +176,12 @@ def user_profile(request, user_id):
 def create_user_page(request):
     form = create_user_form() 
     return render(request, 'create_user_form.html' , {'form': form})
+
+#create Company
+@login_required
+def company_page(request):
+    form = company_form() 
+    return render(request, 'admin_add_company.html' , {'form': form})
 
 #display user list page -----------------------------------------------------------------------
 @login_required

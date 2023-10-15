@@ -1,12 +1,5 @@
 from django.urls import path,include
 from . import views
-from django.contrib.auth import views as auth_views
-
-urlpatterns = [
-    # ...
-    path('accounts/', include('django.contrib.auth.urls')),  # Include authentication URLs
-    # ...
-]
 
 from .views import (
     File_Document_view, Department_view
@@ -52,6 +45,8 @@ urlpatterns = [
 
     #create new file page
     path('create_new_file_form/', views.create_new_file_form, name='create_new_file_form'),
+    #department page
+    path('department_page/', views.department_page, name='department_page'),
     #renew file page
     path('renew_file_form/<int:file_id>/', views.renew_file_form, name='renew_file_form'),
 

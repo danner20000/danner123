@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.views import dashboard, create_user, create_user_page, user_list, update_user, update_user_page ,redirect_to_login, login_user, login_page, logout_user,user_profile
-from files.views import create_new_file_form,create_new_file, renew_file_form ,get_expired_file_list, get_renew_file_list,get_valid_file_list,renew_file ,display_admin_expired, display_admin_valid, display_admin_to_be_renew
+from users.views import dashboard, create_user, create_user_page, user_list, update_user, update_user_page ,redirect_to_login, login_user, login_page, logout_user,user_profile ,company_page
+from files.views import create_new_file_form,create_new_file, renew_file_form ,get_expired_file_list, get_renew_file_list,get_valid_file_list,renew_file ,display_admin_expired, display_admin_valid, display_admin_to_be_renew,department_page
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include([
@@ -42,6 +42,11 @@ urlpatterns = [
     path('renew_file_form/', renew_file_form, name='renew_file_form'),
     #user profile
     path('user_profile/', user_profile, name='user_profile'),
+    #company page
+    path('company_page/', company_page, name='company_page'),
+    #department
+    path('department_page/', department_page, name='department_page'),
+
 
     #render admin dashboard
     path('admin_expired/', display_admin_expired, name='admin_expired'),

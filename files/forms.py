@@ -74,4 +74,13 @@ class renew_form(forms.Form):
             return [(department.department_name, department.department_name) for department in departments]
         return []
 
+class department_form(forms.Form):
+    department_name = forms.DateField(
+        required=True,
+        widget=forms.TextInput(attrs={'style': 'width: 100%; display: block; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'})
+    )
 
+    company = forms.ModelChoiceField(queryset=None) 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['company'].queryset = Company.objects.all()

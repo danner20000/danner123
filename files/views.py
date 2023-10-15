@@ -14,6 +14,7 @@ from django.contrib import messages
 #import from form
 from .forms import create_file
 from .forms import renew_form
+from .forms import department_form
 
 # Create your views here.
 
@@ -208,6 +209,11 @@ def create_new_file_form(request):
     context = {'form': create_file(request.user.company)}
     return render(request, 'create_new_file_form.html', context)
 
+#department form
+@login_required
+def department_page(request):
+    form = department_form() 
+    return render(request, 'admin_add_department.html' , {'form': form})
 
 #display renew file pages
 @login_required
