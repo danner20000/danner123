@@ -1,4 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Function to get cookies
+  function getCookies() {
+    const cookies = document.cookie.split(";").reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split("=");
+      acc[key] = value;
+      return acc;
+    }, {});
+    return cookies;
+  }
+
+  // Use getCookies function to get cookies
+  const cookies = getCookies();
+
+  // Example of accessing a specific cookie named "exampleCookie"
+  const exampleCookieValue = cookies["exampleCookie"];
+  console.log("Value of exampleCookie:", exampleCookieValue);
+
   fetch("/api/file/expired_documents/")
     .then((response) => response.json())
     .then((data) => {

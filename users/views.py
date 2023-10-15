@@ -145,13 +145,10 @@ def login_user(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            request.session['authenticated'] = True
-            return redirect('dashboard') 
+            return redirect('dashboard')  # Assuming you have a named URL for the dashboard
         else:
             messages.error(request, 'Email or Password not found.')
-            return redirect('redirect_to_login') 
-    else:
-        return render(request, 'login.html')
+    return render(request, 'login.html')
 
     
 #logout user
@@ -169,8 +166,9 @@ def dashboard(request):
 
 #user profile
 @login_required
-def user_profile(request):
-    return render(request, 'file_profile.html')
+def user_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    return render(request, 'user_profile.html', {'user': user})
 
 #create user page -----------------------------------------------------------------------------
 @login_required

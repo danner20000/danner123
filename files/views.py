@@ -9,7 +9,6 @@ from .models import File_Document ,Department
 from django.shortcuts import render, get_object_or_404
 import requests
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.contrib import messages
 
 #import from form
@@ -17,6 +16,7 @@ from .forms import create_file
 from .forms import renew_form
 
 # Create your views here.
+
 class Department_view(ModelViewSet):
     serializer_class = DepartmentSerializer
 
@@ -45,16 +45,18 @@ class File_Document_view(ModelViewSet):
 #get the expired file  
     @action(detail=False, methods=['get'])
     def expired(self, request):
-        queryset = self.get_queryset().filter(expiry_date__lt=timezone.now())
+        user_email = request.query_params.get('user_email') 
+        queryset = self.get_queryset().filter(expiry_date__lt=timezone.now(), user__email=user_email)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
 #get the valid file
     @action(detail=False, methods=['get'])
     def valid_file(self, request):
+        user_email = request.query_params.get('user_email') 
         expiration_threshold = timezone.now() + timedelta(days=60)
         queryset = self.get_queryset().filter(
-            expiry_date__gte=expiration_threshold
+            expiry_date__gte=expiration_threshold,  user__email=user_email
         )
 
         serializer = self.get_serializer(queryset, many=True)
@@ -63,13 +65,15 @@ class File_Document_view(ModelViewSet):
 #get the file to be renew
     @action(detail=False, methods=['get'])
     def to_be_renew(self, request):
+        user_email = request.query_params.get('user_email') 
         two_months_before_expiry = timezone.now() + timedelta(days=60)
-        queryset = self.get_queryset().filter(expiry_date__gte=timezone.now(), expiry_date__lte=two_months_before_expiry)
+        queryset = self.get_queryset().filter(expiry_date__gte=timezone.now(), expiry_date__lte=two_months_before_expiry,user__email=user_email )
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
 #admin api
     #get the expired file
+
     @action(detail=False, methods=['get'])
     def admin_expired_list(self, request):
         queryset = self.get_queryset().filter(expiry_date__lt=timezone.now())
@@ -99,20 +103,23 @@ class File_Document_view(ModelViewSet):
 
 #user ---------------------------------------------------------------------------------------------
 #get expired file list
+@login_required
 def get_expired_file_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/expired/')
-    if response.status_code == 200:
+    user_email = request.user.email
+    response = requests.get('http://127.0.0.1:8000/api/file/expired/', params={'user_email': user_email})
+    if response.status_code == 200 and response.text: 
         expired_file = response.json()
-        print(response.status_code)
-        print(response.json())
         return render(request, 'expired_file_list.html', {'expired_file': expired_file})
     else:
         error_message = f"Error fetching expired files. Status code: {response.status_code}"
         return render(request, 'error_page.html', {'error_message': error_message})
 
+
 #get expired file list
+@login_required
 def get_valid_file_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/valid_file/')
+    user_email = request.user.email
+    response = requests.get('http://127.0.0.1:8000/api/file/valid_file/', params={'user_email': user_email})
     if response.status_code == 200:
         valid_file = response.json()
         return render(request, 'valid_file_list.html', {'valid_file': valid_file})
@@ -121,11 +128,12 @@ def get_valid_file_list(request):
 
 
 #get expired file list
+@login_required
 def get_renew_file_list(request):
-    response = requests.get('http://127.0.0.1:8000/api/file/to_be_renew/')
+    user_email = request.user.email
+    response = requests.get('http://127.0.0.1:8000/api/file/to_be_renew/', params={'user_email': user_email})
     if response.status_code == 200:
         renew_file = response.json()
-        paginator = Paginator(renew_file, 5)
         return render(request, 'to_be_renew_file_list.html', {'renew_file': renew_file})
     else:
         return render(request, 'error_page.html')

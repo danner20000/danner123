@@ -12,6 +12,7 @@ class FileSerializer(serializers.ModelSerializer):
         model = File_Document
         fields = (
             'id',
+            'user',
             'user_email',
             'user_firstname',
             'user_lastname',

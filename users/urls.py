@@ -36,5 +36,5 @@ urlpatterns = [
     path('create_user_page/', create_user_page, name='create_user_page'),
     path('user_list/', user_list, name='user_list'),
     path('update_user_page/<int:user_id>/', update_user_page, name='update_user_page'),
-     path('user_profile/', user_profile, name='user_profile'),
+     path('user_profile/<int:user_id>/', user_profile, name='user_profile'),
 ]

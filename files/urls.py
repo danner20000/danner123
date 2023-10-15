@@ -1,5 +1,13 @@
 from django.urls import path,include
 from . import views
+from django.contrib.auth import views as auth_views
+
+urlpatterns = [
+    # ...
+    path('accounts/', include('django.contrib.auth.urls')),  # Include authentication URLs
+    # ...
+]
+
 from .views import (
     File_Document_view, Department_view
 )
