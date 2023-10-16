@@ -7,7 +7,7 @@ from django.contrib import messages
 import requests
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, get_object_or_404
-from .models import User
+from .models import User, Company
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -42,7 +42,7 @@ class Users(ModelViewSet):
 
     def get_queryset(self):
         return self.serializer_class.Meta.model.objects.all()
-    @login_required
+    
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         queryset = queryset.order_by('id')
@@ -55,7 +55,7 @@ class Users(ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    @login_required
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
@@ -214,5 +214,14 @@ def update_user_page(request, user_id):
     context = {'form': form, 'user': user} 
     return render(request, 'update_user.html', context)
 
-
-
+@login_required
+def create_company(request):
+    if request.method == 'POST':
+        form = company_form(request.POST)
+        if form.is_valid():
+            company_name = form.cleaned_data['company']
+            Company.objects.create(company_name=company_name)
+            return redirect('company_page')  
+    else:
+        form = company_form()
+    return render(request, 'admin_add_company.html', {'form': form})

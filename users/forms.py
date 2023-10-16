@@ -60,6 +60,6 @@ class update_user_form(forms.Form):
 
 
 class company_form(forms.Form):
-    company_name = forms.CharField(widget=forms.TextInput(attrs={
+    company = forms.CharField(widget=forms.TextInput(attrs={
         'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'
     }))

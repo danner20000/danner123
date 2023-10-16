@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import Users, create_user, update_user, dashboard, create_user_page, user_list, update_user_page,redirect_to_login, login_user, login_page, logout_user,user_profile, company_page
+from .views import Users, create_user, update_user, dashboard, create_user_page, user_list, update_user_page,redirect_to_login, login_user, login_page, logout_user,user_profile, company_page,create_company
 from django.contrib.auth import views as auth_views
 
 
@@ -28,6 +28,7 @@ urlpatterns = [
     path('update_user/<int:user_id>/', update_user, name='update_user'),
     path('login_user/', login_user, name='login_user'),
     path('logout_user/', logout_user, name='logout_user'),
+    path('create_company/', create_company, name='create_company'),
 
     #pages
     path('redirect_to_login/', redirect_to_login, name='redirect_to_login'),

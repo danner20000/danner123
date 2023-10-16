@@ -201,6 +201,8 @@ def renew_file(request, file_id):
     context = {'form': form, 'file': file}
     return render(request, 'renew_file_form.html', context)
 
+
+
 #all pages
 
 #display create new file pages

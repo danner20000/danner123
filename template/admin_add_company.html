@@ -9,7 +9,7 @@
     {% include 'navigation.html' %} {% include 'toast.html' %}
     <h3>Create Company</h3>
     <div class="small-container">
-    <form method="post" action="{% url 'create_user' %}">
+    <form method="post" action="{% url 'create_company' %}">
       {% csrf_token %} {{ form.as_p }}
       <div class="text-end">
         <a class="cancel-btn" href="{% url 'user_list' %}">Cancel</a>

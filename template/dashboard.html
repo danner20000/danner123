@@ -6,119 +6,299 @@
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-  </head>
+    <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <!-- Bootstrap CSS -->
+      <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous"
+      />
+      <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+        crossorigin="anonymous"
+      />
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css"
+      />
+      <!-- Include DataTables CSS -->
+      <link
+        rel="stylesheet"
+        href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css"
+      />
+    </head>
+    <style>
+      .fixed-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000; /* Make sure it appears above other elements /
+        background-color: #1a5795; / Choose your desired background color */
+      }
+    </style>
+  
+     
   <style>
-    .card {
-      background-color: #f2f2f2;
-      box-shadow: #949494;
-      width: 250px;
-      border: 1px solid #c1c1c1;
-      border-radius: 10px;
-      padding: 10px;
-      margin: 10px;
+    /* CSS for styling the cards */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-image: linear-gradient(#000, #3a9cbd 7%, #fff 29%);
+      
     }
+  
+    .cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  
+    .card {
+      
+      width: 200px;
+      height: 300px;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin: 50px;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: top;
+      transition: box-shadow 0.3s ease-in-out;
+      color: black;
+    }
+    .card:hover {
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+  
+    .btn {
+      width: 200px;
+      height: 300px;
+      cursor: pointer;
+      background: linear-gradient(to bottom, #cdf0f7 1%,#ffffff 15%,#ffffff 89%,#cdf0f7 100%);
+      border: 2px solid orange;
+      outline: none;
+      transition: 1s ease-in-out;
+      border-color:orange;
+      box-shadow: 30px 30px 1px #D9D3D3;
+     
+    }
+    .btn:hover a {
+      text-decoration: none; /* Remove underline when links within .btn are hovered */
+    }
+  
+    svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      fill: none;
+      stroke: #fff;
+      stroke-dasharray: 150 480;
+      stroke-dashoffset: 150;
+      transition: 1s ease-in-out;
+      width: 200px;
+      height: 300px;
+    }
+  
+    .btn:hover {
+      transition: 1s ease-in-out;
+      background: #4f95da;
+    }
+  
+    .btn:hover svg {
+      stroke-dashoffset: -480;
+    }
+  
+    .btn span {
+      color: white;
+      font-size: 18px;
+      font-weight: 100;
+    }
+    .card span {
+      color: black; /* Add this line to change the font color of the span to black /
+      font-weight: bold;
+    }
+    .circle {
+  width: 200px; / Adjust the size of the circle /
+  height: 200px; / Adjust the size of the circle /
+  border-radius: 50%; / Makes the element a circle */
+  
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(50%, -40%); /* Adjust the position of the circle /
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); / Creates a semicircular shape /
+  z-index: 1;
+  }
+  .circle-1 {
+  background-image: url('assets/docu1.png'); / URL for the first card's logo /
+  background-size: 100% 100%; / This makes the background image cover the entire circle */
+  background-repeat: no-repeat;
+  
+  }
+  .circle-2 {
+  background-image: url('assets/renew.png'); /* URL for the first card's logo /
+  background-size: 100% 100%; / This makes the background image cover the entire circle */
+  background-repeat: no-repeat;
+  
+  }
+  .circle-3 {
+  background-image: url('assets/expired.png'); /* URL for the first card's logo /
+  background-size: 100% 100%; / This makes the background image cover the entire circle */
+  background-repeat: no-repeat;
+  
+  }
+  
+  
   </style>
-  <body>
-    {% csrf_token %} {% include 'navigation.html' %}
-    <main class="dashboard-content">
-      <div class="container mt-4 custom-container">
-        <div class="row">
-          <div class="col-md-10">
-            <!-- Admin Section -->
-            {% if user.is_authenticated and user.is_staff %}
-            <div class="card">
-              <a
-                href="{% url 'admin_valid' %}"
-                class="custom-modal-button"
-                role="button"
-                aria-pressed="true"
-                style="text-decoration: none"
-                ><h3>Valid Documents</h3>
-                <div id="valid"></div
-              ></a>
-            </div>
-            <div class="card">
-              <a
-                href="{% url 'admin_to_be_renew' %}"
-                class="custom-modal-button"
-                role="button"
-                aria-pressed="true"
-                style="text-decoration: none"
-                ><h3>Due for Renewal Documents</h3>
-                <div id="renew"></div
-              ></a>
-            </div>
-            <div class="card">
-              <a
-                href="{% url 'admin_expired' %}"
-                class="custom-modal-button"
-                role="button"
-                aria-pressed="true"
-                style="text-decoration: none"
-                ><h3>Expired Documents</h3>
-                <div id="expired"></div
-              ></a>
-            </div>
-            {% endif %} {% if not user.is_staff %}
-            <div class="add-button">
-              <a
-                href="{% url 'create_new_file_form' %}"
-                class="btn custom-create_file"
-                role="button"
-                aria-pressed="true"
-              >
-                <b> Add Document</b>
-              </a>
-            </div>
+  
+  
+      <nav
+        class="navbar navbar-expand-lg navbar-dark fixed-header"
+        style="background-color: #1a5795"
+      >
+        <div class="container-fluid">
+          <a class="navbar-brand" >
+            <i class="fas fa-envelope"> File Renewal </i>
+          </a>
+        
+            <span id="datetime" class="navbar-text"></span>
+         
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                
+                  >User Management</a
+                >
+              </li>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  id="navbarDropdown"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  ><i class="fa fa-user"></i
+                ></a>
+                <ul
+                  class="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="navbarDropdown"
+                >
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a class="dropdown-item"
+                      >Logout</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </div>
         </div>
-
-        <div class="card">
-          <a
-            href="{% url 'get_valid_file_list' %}"
-            class="custom-modal-button"
-            role="button"
-            aria-pressed="true"
-            style="text-decoration: none"
-          >
-            <h3>Valid Documents</h3>
+      </nav>
+  
+   
+  
+  
+  
+  
+    <body>
+      <div class="cards-container">
+        <div class="card center btn">
+          <a href="">
+            <div class="circle circle-1">
+          
+            </div>
+            <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+              <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+              <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+            </svg>
+            <i class=""></i>
+            <span>Valid Documents</span>
           </a>
         </div>
-
-        <div class="card">
-          <a
-            href="{% url 'get_renew_file_list' %}"
-            class="custom-modal-button"
-            role="button"
-            aria-pressed="true"
-            style="text-decoration: none"
-          >
-            <h3>Due for Renewal Documents</h3>
+  
+        <div class="card center btn">
+          <a href="">
+            <div class="circle circle-2">
+         
+            </div>
+            <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+              <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+              <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+            </svg>
+            <span>Renewable Documents</span>
           </a>
         </div>
-
-        <div class="card">
-          <a
-            href="{% url 'get_expired_file_list' %}"
-            class="custom-modal-button"
-            role="button"
-            aria-pressed="true"
-            style="text-decoration: none"
-          >
-            <h3>Expired Documents</h3>
+  
+        <div class="card center btn ">
+          <a href="">
+            <div class="circle circle-3">
+  
+            </div>
+            <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+              <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+              <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+            </svg>
+            <span>Expired Documents</span>
           </a>
-        </div>
-        {% endif %}
-
-        <!-- File Statistics -->
-        <div class="card">
-          <h6>File Statistics</h6>
-          <canvas id="pieChart"></canvas>
-          <script src="{% static 'js/pie.js' %}"></script>
-          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-          <script src="{% static 'js/admin_api.js' %}"></script>
         </div>
       </div>
-    </main>
-  </body>
-</html>
+    </body>
+  </html>
+  <script>
+    function updateDateTime() {
+      const datetimeElement = document.getElementById("datetime");
+      const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      };
+      const currentDateTime = new Date().toLocaleDateString(
+        undefined,
+        options
+      );
+      datetimeElement.textContent = currentDateTime;
+    }
+  
+    // Update the date and time immediately and then every second
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+  </script>
