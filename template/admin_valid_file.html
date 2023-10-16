@@ -25,6 +25,7 @@
   </head>
 
   <body>
+    {% include 'navigation.html' %} {% csrf_token %}
     <div class="container mt-5 custom-container">
       <div class="row justify-content-center">
         <div class="col-m-2">
@@ -45,6 +46,9 @@
         </div>
       </div>
     </div>
+    <a href="{% url 'dashboard' %}" class="btn mt-2 btn-secondary float-end m-5"
+      >Back</a
+    >
     <script src="{% static 'js/admin_table.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

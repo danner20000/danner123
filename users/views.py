@@ -187,18 +187,22 @@ def company_page(request):
 @login_required
 def user_list(request):
     if request.user.is_staff:
-        # Exclude the admin user from the list
         users = User.objects.filter(is_staff=False).order_by('first_name')
-        
-        paginator = Paginator(users, 5, allow_empty_first_page=True)
-        page_number = request.GET.get('page')
-        users = paginator.get_page(page_number)
-
         context = {"users": users}
         return render(request, 'user_list.html', context)
     else:
         return HttpResponse("You do not have permission to access this page.")
-       
+
+#get company list
+@login_required     
+def company_list(request):
+    response = requests.get('http://127.0.0.1:8000/api/users/company/')
+    if response.status_code == 200 and response.text: 
+        list_company = response.json()
+        return render(request, 'company_list.html', {'list_company': list_company})
+    else:
+        error_message = f"Error fetching expired files. Status code: {response.status_code}"
+        return render(request, 'error_page.html', {'error_message': error_message})
 
 #display update user page -----------------------------------------------------------------------
 @login_required
