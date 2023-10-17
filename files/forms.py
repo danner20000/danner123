@@ -3,6 +3,26 @@ from files.models import Department
 from users.models import Company
 
 
+class DepartmentForm(forms.ModelForm):
+    company = forms.ModelChoiceField(
+        queryset=Company.objects.all(),
+        widget=forms.Select(attrs={'style': 'background-color: #f7f7f7; padding: 5px;'})
+    )
+    
+    department_name = forms.CharField(
+        widget=forms.TextInput(attrs={'style': 'background-color: #f7f7f7; padding: 5px;'})
+    )
+
+    class Meta:
+        model = Department
+        fields = ['company','department_name']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['company'].queryset = Company.objects.all()
+
+
+
 class create_file(forms.Form):
     department_name = forms.ChoiceField(choices=[], required=True, widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'}))
     document_type = forms.ChoiceField(
@@ -15,6 +35,9 @@ class create_file(forms.Form):
         required=True,
         widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'})
     )
+    agency = forms.CharField(widget=forms.TextInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'
+    }))
     upload_file = forms.FileField()
     
     renewal_date = forms.DateField(
@@ -53,6 +76,9 @@ class renew_form(forms.Form):
         required=True,
         widget=forms.Select(attrs={'style': 'width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'})
     )
+    agency = forms.CharField(widget=forms.TextInput(attrs={
+        'style': 'width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;','readonly': 'readonly' 
+    }))
     upload_file = forms.FileField()
     renewal_date = forms.DateField(
         required=True,
@@ -74,16 +100,5 @@ class renew_form(forms.Form):
             return [(department.department_name, department.department_name) for department in departments]
         return []
 
-class department_form(forms.Form):
-
-    company = forms.ModelChoiceField(queryset=None) 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['company'].queryset = Company.objects.all()
-        
-    department_name = forms.DateField(
-        required=True,
-        widget=forms.TextInput(attrs={'style': 'width: 100%; display: block; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;'})
-    )
 
    

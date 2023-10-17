@@ -1,120 +1,35 @@
-/* CSS for styling the cards */
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  background-image: linear-gradient(#000, #3a9cbd 7%, #fff 29%);
+  background-color: #ededed; /* Change this color code to your desired background color */
 }
 
-.cards-container {
+.container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card {
-  width: 500px;
-  height: 200px;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin: 50px;
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: top;
-  transition: box-shadow 0.3s ease-in-out;
-  color: black;
 }
-.card:hover {
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+.pie-chart {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
 }
 
-.btn {
-  width: 400px;
-  height: 500px;
-  cursor: pointer;
-  background: linear-gradient(
-    to bottom,
-    #cdf0f7 1%,
-    #ffffff 15%,
-    #ffffff 89%,
-    #cdf0f7 100%
-  );
-  border: 2px solid orange;
-  outline: none;
-  transition: 1s ease-in-out;
-  border-color: orange;
-  box-shadow: 30px 30px 1px #d9d3d3;
-}
-.btn:hover a {
-  text-decoration: none; /* Remove underline when links within .btn are hovered */
+h6 {
+  text-align: center;
 }
 
-svg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  fill: none;
-  stroke: #fff;
-  stroke-dasharray: 150 480;
-  stroke-dashoffset: 150;
-  transition: 1s ease-in-out;
-  width: 400px;
-  height: 500px;
-}
-
-.btn:hover {
-  transition: 1s ease-in-out;
-  background: #4f95da;
-}
-
-.btn:hover svg {
-  stroke-dashoffset: -480;
-}
-
-.btn span {
-  color: white;
-  font-size: 18px;
-  font-weight: 100;
-}
-.card span {
-  color: black; /* Add this line to change the font color of the span to black /
+a {
+  display: block;
+  text-align: center;
+  margin: 10px 0;
+  text-decoration: none;
+  color: #007bff;
   font-weight: bold;
 }
-.circle {
-width: 200px; / Adjust the size of the circle /
-height: 200px; / Adjust the size of the circle /
-border-radius: 50%; / Makes the element a circle */
 
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(
-    50%,
-    -40%
-  ); /* Adjust the position of the circle /
-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); / Creates a semicircular shape /
-z-index: 1;
-}
-.circle-1 {
-background-image: url('assets/docu1.png'); / URL for the first card's logo /
-background-size: 100% 100%; / This makes the background image cover the entire circle */
-  background-repeat: no-repeat;
-}
-.circle-2 {
-  background-image: url("assets/renew.png"); /* URL for the first card's logo /
-background-size: 100% 100%; / This makes the background image cover the entire circle */
-  background-repeat: no-repeat;
-}
-.circle-3 {
-  background-image: url("assets/expired.png"); /* URL for the first card's logo /
-background-size: 100% 100%; / This makes the background image cover the entire circle */
-  background-repeat: no-repeat;
+.custom-create_file {
+  background: linear-gradient(to bottom, #d1e8a1, #9acd32, #7ea829);
 }

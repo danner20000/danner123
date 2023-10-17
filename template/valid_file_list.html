@@ -37,11 +37,10 @@
                 <th scope="col">Company</th>
                 <th scope="col">Department</th>
                 <th scope="col">Document Type</th>
-                <th scope="col">Renewal Date</th>
+                <th scope="col">Agency</th>
+                <th scope="col">Renewed Date</th>
                 <th scope="col">Expiry Date</th>
-                {% if user.is_authenticated and user.is_staff %}
-                <th scope="col">Assign Person</th>
-                {% endif %}
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -51,11 +50,18 @@
                 <td>{{ file.company_name }}</td>
                 <td>{{ file.department_name }}</td>
                 <td>{{ file.document_type }}</td>
+                <td>{{ file.agency }}</td>
                 <td>{{ file.renewal_date }}</td>
                 <td>{{ file.expiry_date }}</td>
-                {% if user.is_authenticated and user.is_staff %}
-                <td>{{ file.user_email}}</td>
-                {% endif %}
+                <td>
+                  <a
+                    href="{% url 'display_file_page' file_id=file.id %}"
+                    class="btn btn-info btn-sm"
+                    role="button"
+                    aria-pressed="true"
+                    >View</a
+                  >
+                </td>
               </tr>
               {% endfor %}
             </tbody>

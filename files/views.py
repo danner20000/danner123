@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 from django.utils import timezone
 from datetime import timedelta
 from .models import File_Document ,Department
+from users.models import Company
 from django.shortcuts import render, get_object_or_404
 import requests
 from django.contrib.auth.decorators import login_required
@@ -14,7 +15,7 @@ from django.contrib import messages
 #import from form
 from .forms import create_file
 from .forms import renew_form
-from .forms import department_form
+from .forms import DepartmentForm
 
 # Create your views here.
 
@@ -153,8 +154,9 @@ def create_new_file(request):
             file_document = File_Document(
                 user=request.user,
                 company=request.user.company,
-                department_name=department,  # Assign the Department instance, not the name
+                department_name=department,  
                 document_type=form.cleaned_data['document_type'],
+                agency=form.cleaned_data['agency'],
                 upload_file=form.cleaned_data['upload_file'],
                 renewal_date=form.cleaned_data['renewal_date'],
                 expiry_date=form.cleaned_data['expiry_date']
@@ -181,6 +183,7 @@ def renew_file(request, file_id):
             department = Department.objects.get(department_name=department_name)
 
             file.document_type = form.cleaned_data['document_type']
+            file.agency = form.cleaned_data['agency']
             file.department_name = department  
             file.upload_file = form.cleaned_data['upload_file']
             file.renewal_date = form.cleaned_data['renewal_date']
@@ -202,6 +205,13 @@ def renew_file(request, file_id):
     return render(request, 'renew_file_form.html', context)
 
 
+#department list
+@login_required
+def department_list(request):
+    department = Department.objects.all()
+    context = {"department": department}
+    return render(request, 'department_list.html', context)
+
 
 #all pages
 
@@ -214,8 +224,22 @@ def create_new_file_form(request):
 #department form
 @login_required
 def department_page(request):
-    form = department_form() 
+    form = DepartmentForm() 
     return render(request, 'admin_add_department.html' , {'form': form})
+
+@login_required
+def create_department(request):
+    if request.method == 'POST':
+        form = DepartmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('department_page')  
+    else:
+        form = DepartmentForm()
+
+    return render(request, 'admin_add_department.html', {'form': form})
+
+
 
 #display renew file pages
 @login_required
@@ -224,6 +248,7 @@ def renew_file_form(request, file_id):
     form = renew_form(company=request.user.company, initial={
         'document_type': file.document_type,
         'department': file.department_name,
+        'agency': file.agency,
     }) 
     context = {'form': form, 'file': file}
     return render(request, 'renew_file_form.html', context)
@@ -238,3 +263,8 @@ def display_admin_valid(request):
 @login_required
 def display_admin_to_be_renew(request):
     return render(request, 'admin_renew_file.html')
+
+@login_required
+def display_file_page(request, file_id):
+    file_profile = File_Document.objects.get(pk=file_id)  
+    return render(request, 'file_profile.html', {'file_profile': file_profile})

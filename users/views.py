@@ -7,10 +7,10 @@ from django.contrib import messages
 import requests
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, get_object_or_404
-from .models import User, Company
+from .models import User
+from .models import Company
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 #import from form
 from .forms import create_user_form
 from .forms import update_user_form
@@ -177,7 +177,7 @@ def create_user_page(request):
     form = create_user_form() 
     return render(request, 'create_user_form.html' , {'form': form})
 
-#create Company
+#create company page
 @login_required
 def company_page(request):
     form = company_form() 
@@ -219,13 +219,14 @@ def update_user_page(request, user_id):
     return render(request, 'update_user.html', context)
 
 @login_required
+@login_required
 def create_company(request):
     if request.method == 'POST':
         form = company_form(request.POST)
         if form.is_valid():
-            company_name = form.cleaned_data['company']
-            Company.objects.create(company_name=company_name)
+            form.save()
             return redirect('company_page')  
     else:
         form = company_form()
+
     return render(request, 'admin_add_company.html', {'form': form})

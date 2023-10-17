@@ -19,6 +19,8 @@ class FileSerializer(serializers.ModelSerializer):
             'company_name',
             'department_name',
             'document_type',
+            'agency',
+            'upload_file',
             'upload_file',
             'renewal_date',
             'expiry_date',

@@ -14,17 +14,23 @@ document.addEventListener("DOMContentLoaded", function () {
           "company_name",
           "department_name",
           "document_type",
+          "agency",
+          "upload_file",
           "renewal_date",
           "expiry_date",
           "user_fullname",
         ];
+
+        const fileName = item.upload_file.split("/").pop(); // Extract file name
+
         const rowData = cells.map((key) =>
           key === "user_fullname"
             ? `${item.user_firstname} ${item.user_lastname}`
+            : key === "upload_file"
+            ? `<a href="${item.upload_file}" target="_blank">${fileName}</a>`
             : item[key]
         );
 
-        // Add a row to the table
         table.row.add([index + 1, ...rowData]).draw();
       });
     });
@@ -46,17 +52,23 @@ document.addEventListener("DOMContentLoaded", function () {
           "company_name",
           "department_name",
           "document_type",
+          "agency",
+          "upload_file",
           "renewal_date",
           "expiry_date",
           "user_fullname",
         ];
+
+        const fileName = item.upload_file.split("/").pop(); // Extract file name
+
         const rowData = cells.map((key) =>
           key === "user_fullname"
             ? `${item.user_firstname} ${item.user_lastname}`
+            : key === "upload_file"
+            ? `<a href="${item.upload_file}" target="_blank">${fileName}</a>`
             : item[key]
         );
 
-        // Add a row to the table
         table.row.add([index + 1, ...rowData]).draw();
       });
     });
@@ -78,17 +90,23 @@ document.addEventListener("DOMContentLoaded", function () {
           "company_name",
           "department_name",
           "document_type",
+          "agency",
+          "upload_file",
           "renewal_date",
           "expiry_date",
           "user_fullname",
         ];
+
+        const fileName = item.upload_file.split("/").pop(); // Extract file name
+
         const rowData = cells.map((key) =>
           key === "user_fullname"
             ? `${item.user_firstname} ${item.user_lastname}`
+            : key === "upload_file"
+            ? `<a href="${item.upload_file}" target="_blank">${fileName}</a>`
             : item[key]
         );
 
-        // Add a row to the table
         table.row.add([index + 1, ...rowData]).draw();
       });
     });

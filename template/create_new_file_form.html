@@ -8,8 +8,7 @@
     <title>Create New File</title>
   </head>
   <body>
-    {% include 'navigation.html' %} {% include 'toast.html' %} {% if not
-    user.is_staff %}
+    {% include 'navigation.html' %} {% include 'toast.html' %}
 
     <h6>Create New File</h6>
     {% if messages %}
@@ -34,7 +33,6 @@
           <button class="user-submit-btn" type="submit">Submit</button>
         </div>
       </form>
-      {% endif %}
     </div>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
