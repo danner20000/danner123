@@ -89,6 +89,5 @@ urlpatterns = [
     path('renew_file/', renew_file, name='renew_file'),
 
 ]
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

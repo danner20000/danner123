@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
           "user_fullname",
         ];
 
-        const fileName = item.upload_file.split("/").pop(); // Extract file name
+        const fileName = item.upload_file.split("/").pop();
 
         const rowData = cells.map((key) =>
           key === "user_fullname"

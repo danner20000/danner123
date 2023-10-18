@@ -18,8 +18,9 @@
       <div class="login-header">
         <div class="log">Login</div>
       </div>
+      {% include 'toast.html' %}
       <form method="post" action="{% url 'login_user' %}">
-        {% csrf_token %} {% include 'toast.html' %}
+        {% csrf_token %}
         <div class="form-group">
           <label for="email">Email:</label>
           <input type="email" id="email" name="email" required />

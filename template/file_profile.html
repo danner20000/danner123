@@ -45,9 +45,15 @@
         <li>Renewal Date: {{ file_profile.renewal_date }}</li>
         <li>Expiry Date: {{ file_profile.expiry_date }}</li>
       </ul>
-      <a href="/FileRenewal/{{ file_profile.upload_file.name }}" download
-        >Download File</a
-      >
+      <div class="pdf-container">
+        <td>
+          <img
+            src="{{ file_profile.upload_file }}"
+            class="prod_size"
+            style="max-width: 300px; max-height: 300px"
+          />
+        </td>
+      </div>
     </div>
   </body>
 </html>

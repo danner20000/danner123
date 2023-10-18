@@ -1,6 +1,4 @@
 from django.urls import path,include
-from django.conf import settings  
-from django.conf.urls.static import static 
 from . import views
 
 from .views import (
@@ -54,6 +52,7 @@ urlpatterns = [
     #file profile page
     path('display_file_page/<int:file_id>/', views.display_file_page, name='display_file_page'),
 
+
     #render admin page for dashboard
     path('admin_expired/', views.display_admin_expired, name='admin_expired'),
     path('admin_valid/', views.display_admin_valid, name='admin_valid'),
@@ -71,7 +70,9 @@ urlpatterns = [
     path('get_expired_file_list/', views.get_expired_file_list, name='get_expired_file_list'),
     #get valid file list
     path('get_valid_file_list/', views.get_valid_file_list, name='get_valid_file_list'),
-    #renew file api
-    path('renew_file/<int:file_id>/', views.renew_file, name='renew_file'),
+    #renew_file_api
+    path('renew_file/<int:file_id>/', views.renew_file, name='renew_file')
+
+
 
 ]
