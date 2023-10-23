@@ -3,20 +3,118 @@
   <head>
     <meta charset="UTF-8" />
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/create_user.css' %}" />
+
     <title>Create User</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/create_user.css' %}" />
+    <style>
+      /* Custom CSS for the Submit button */
+      .user-submit-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      /* para sa tableness */
+      .container {
+        width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border: none; /* Remove the border */
+        border-radius: 5px;
+        background-color: none;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 300px;
+      }
+
+      .column {
+        padding: 0 200px;
+        box-sizing: border-box;
+      }
+
+      .form-group {
+        display: block;
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .form-group input[type="text"],
+      .form-group input[type="email"],
+      .form-group select,
+      .form-group input[type="password"] {
+        width: 100%;
+        padding: 8px 0;
+        border: none; /* Remove the border */
+        border-bottom: 1px solid #ccc;
+        background: none;
+        outline: none;
+        box-shadow: none; /* Remove the shadow */
+      }
+
+      .form-group input[type="text"]:focus,
+      .form-group input[type="email"]:focus,
+      .form-group select:focus,
+      .form-group input[type="password"]:focus {
+        border-bottom: 2px solid #2691d9;
+        box-shadow: none; /* Remove the shadow on focus */
+      }
+    </style>
   </head>
   <body>
     {% include 'navigation.html' %} {% include 'toast.html' %}
     <h3>Create User</h3>
-    <div class="small-container">
     <form method="post" action="{% url 'create_user' %}">
-      {% csrf_token %} {{ form.as_p }}
-      <div class="text-end">
-        <a class="cancel-btn" href="{% url 'user_list' %}">Cancel</a>
-        <button class="user-submit-btn" type="submit">Submit</button>
-      </div>
+      {% csrf_token %}
+      <div class="container">
+        <div class="column">
+          <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+            {{ form.first_name }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+            {{ form.last_name }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+          </div>
+        </div>
+        <div class="column">
+          <div class="form-group">
+            <label for="{{ form.company.id_for_label }}">Company:</label>
+            {{ form.company }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.password.id_for_label }}">Password:</label>
+            {{ form.password }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.confirm_password.id_for_label }}"
+              >Confirm Password:</label
+            >
+            {{ form.confirm_password }}
+          </div>
+        </div>
+        <div class="text-end">
+          <a class="cancel-btn" href="{% url 'user_list' %}">Cancel</a>
+          <button class="user-submit-btn" type="submit">Submit</button>
+        </div>
       </div>
     </form>
+    >
   </body>
 </html>

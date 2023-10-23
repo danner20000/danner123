@@ -35,7 +35,7 @@ body {
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
-.btn {
+.botn {
   width: 300px;
   height: 500px;
   cursor: pointer;
@@ -52,7 +52,7 @@ body {
   border-color: orange;
   box-shadow: 30px 30px 1px #d9d3d3;
 }
-.btn:hover a {
+.botn:hover a {
   text-decoration: none;
 }
 
@@ -69,16 +69,16 @@ svg {
   height: 500px;
 }
 
-.btn:hover {
+.botn:hover {
   transition: 1s ease-in-out;
   background: #4f95da;
 }
 
-.btn:hover svg {
+.botn:hover svg {
   stroke-dashoffset: -480;
 }
 
-.btn span {
+.botn span {
   color: white;
   font-size: 18px;
   font-weight: 100;
@@ -101,21 +101,21 @@ svg {
 }
 
 .circle-1 {
-  background-image: url("assets/docu1.png");
+  background-image: url("../img/docu1.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center; /* Center the image */
 }
 
 .circle-2 {
-  background-image: url("assets/renew.png");
+  background-image: url("../img/renew.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center center; /* Center the image */
 }
 
 .circle-3 {
-  background-image: url("assets/expired.png");
+  background-image: url("../img/expired.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center; /* Center the image */
@@ -132,10 +132,11 @@ svg {
   position: fixed;
   top: 0; /* Adjust this value to leave space for the top navigation bar */
   left: 0;
-  background-color: #111;
+  background-color: none;
+  box-shadow: 0 0 50px rgba(242, 27, 27, 0.2);
   padding-top: 50px;
   padding-right: 10px;
-  color: white;
+
   overflow-x: hidden;
   transition: 0.5s;
 }
@@ -146,17 +147,22 @@ svg {
 }
 
 /* Updated CSS for sidebar links */
+.sidebar {
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+}
+
 .sidebar a {
   padding: 8px 8px 8px 16px;
   text-decoration: none;
   font-size: 20px;
-  color: #818181;
+  color: white;
   display: block;
   transition: 0.3s;
 }
 
 .sidebar a:hover {
-  color: #f1f1f1;
+  background: #1a5795;
+  color: #e81818;
 }
 #sidebar-toggle {
   top: 10px;
@@ -186,5 +192,74 @@ svg {
   }
   100% {
     left: 100%; /* Move the dragon to the right end of the viewport */
+  }
+}
+
+/* style para sa add user button */
+.bbtn:link,
+.bbtn:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 40px;
+  display: inline-block;
+  border-radius: 100px;
+  transition: all 0.2s;
+}
+
+.bbtn:hover {
+  /* transform: translateY(-3px); */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.bbtn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.bbtn {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.bbtn-white {
+  background-color: #fff;
+  color: #777;
+}
+
+.bbtn::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s;
+}
+
+.bbtn {
+  color: black; /* Set the text color to black */
+}
+
+.bbtn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
+
+.bbtn-animated {
+  animation: moveInBottom 5s ease-out;
+  animation-fill-mode: backwards;
+}
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
   }
 }

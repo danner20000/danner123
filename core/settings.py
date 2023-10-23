@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-7@_q7hf4zq=%5#x%93tht7*alcuxkk_lfmulc-j22+im@37#rd
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = strtobool(os.environ.get('DEBUG', "False"))
+DEBUG = strtobool(os.environ.get('DEBUG', "True"))
 
 SITE_DOMAIN = os.environ.get('SITE_DOMAIN')
 

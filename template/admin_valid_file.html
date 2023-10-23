@@ -12,12 +12,12 @@
       rel="stylesheet"
       href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"
     />
-    <title>Expired Documents</title>
+
     <style>
       .custom-container {
         border: 1px solid #ccc;
         border-radius: 10px;
-        margin-top: 50px;
+        margin-bottom: 300px;
         padding: 20px;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       }
@@ -29,7 +29,7 @@
     <div class="container mt-5 custom-container">
       <div class="row justify-content-center">
         <div class="col-m-2">
-          <table id="valid" class="table table-sm">
+          <table id="renew" class="table table-sm">
             <thead class="bg-primary text-white">
               <tr>
                 <th scope="col">No.</th>
@@ -48,12 +48,13 @@
         </div>
       </div>
     </div>
-    <a href="{% url 'dashboard' %}" class="btn mt-2 btn-secondary float-end m-5"
-      >Back</a
-    >
-    <script src="{% static 'js/admin_table.js' %}"></script>
+    <div class="text-center">
+      <a href="{% url 'dashboard' %}" class="btn btn-secondary mt-3">Backens</a>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="{% static 'js/admin_table.js' %}"></script>
   </body>
 </html>

@@ -7,7 +7,7 @@
   </head>
   <body>
     {% if messages %}
-    <div class="position-fixed" style="top: 0; right: 0; margin: 10px">
+    <div class="position-fixed" style="top: 0; right: 0; margin-top: 70px">
       {% for message in messages %} {% if message.tags == "error" %}
       <div class="alert alert-danger" role="alert">{{ message }}</div>
       {% else %}
